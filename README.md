@@ -7,4 +7,3 @@ Affiche thème zodiacal et tableau annuel des transits, natal et progressé, sau
 Webextension for Firefox (compatible with Chrome thanks to https://github.com/mozilla/webextension-polyfill)
 
 Displays zodiacal theme and annual transits both natal and progressed,saves locally birth coordinates with import/export option.
-différent !
