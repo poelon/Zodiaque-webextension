@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style.css"/>
+  </head>
+
+  <body>
+
+    <form>
+        <label id="labelPlace"></label><input type="text" id="place" ><br>
+        <label>utc </label><input type="number" id="utcDef" class="nombres" max=24 min=-24><br>
+        <label>latitude</label><input type="number" id="latDef" class="nombres"  step=0.01 min=-90 max=90><br>
+        <label>longitude</label> <input type="number" id="longDef" class="nombres" step=0.01 min=-180 max=180><br>
+        <button type="submit" id="bouton">Save</button>
+    </form>
+    
+    <script src="../js/browser-polyfill.js"></script>
+    <script src="../js/options.js"></script>
+    
+
+  </body>
+
+</html>

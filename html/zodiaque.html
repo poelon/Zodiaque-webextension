@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="frchoic">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style.css"/>
+    <title>Zodiaque </title>
+    <style type="text/css" media="screen, print">
+    @font-face {
+      font-family: "Zodiac";
+      src: url("../fonts/ZODIAC.TTF");
+    }
+   # body { font-family: "Zodiac"}
+  </style>
+  </head>
+
+<body>
+
+<div class="cadreglobal">
+    <div class="cadregauche">
+     <div class="cadregauchevertical">
+      <div class="cadregaucheverticalhaut">
+        <div class="new-note">
+                <label id="nom">nom</label><br>
+            <input type="text" id="0"><br>
+                <label id="date">date de naissance</label><br>
+            <input type="date" class="dates" id="1" placeholder="jj/mm/aaaa" required><br>
+                <label id="heure">heure</label><br>
+            <input type="time" class="heures" id="2"  placeholder="hh:mm" required pattern="[0-9]{2}:[0-9]{2}"><br>
+                <label id="lieu">lieu de naissance</label><br>
+            <input type="text" id="3"><br>
+            <label for="4" id="utc">utc</label>
+            <input id="4" class="nombres0" type='number' value='1' max=14 min=-12><br>
+                <label for="5" id="latitude">latitude</label> 
+            <input id="5" class="nombres" type='number' value='48.52' step=0.01 min=-90 max=90><br>
+            <label for="6" id="longitude">longitude</label>
+            <input id="6" class="nombres" type='number' value='2.21' step=0.01 min=-180 max=180><br><br>
+            <button class="add" id="add" >ajouter fiche</button>
+            <div class="clearfix"></div>
+            <p>************************</p>
+            <div class="file-container"><select id="listenoms"></select></div>
+        </div>
+      </div> 
+      <div class="cadregaucheverticalcentre">
+            <div class="note-container"></div>
+      </div>
+     <div class="cadregaucheverticalbas">
+             <div><input type="button" id="export" value="export"><input type="button" id="import" value="import">
+             <button class="clear" id="effacer" disabled='true'>tout effacer</button>
+              <input type="button" hidden=true id="test" value="test">
+             <input type="file" hidden=true id="filejson" accept=".json"></div>
+     </div>
+    </div>
+   </div>
+  
+    <div class="cadrecentre">
+      <div class="cadrevertical">
+        <input type="file" hidden=true id="fileElem" accept=".txt">
+        <div id="commentaire">
+        <p>chargement éphémérides en cours...</p>
+        </div>
+     </div>
+      <div class="cadrevertical">
+            <label id="maintenant">maintenant</label>
+        <input type="checkbox" id="checkMaintenant" checked>
+        <input type="checkbox" id="checkMaisons" checked>
+            <label id="maisons">Maisons</label>
+        <input type="date" class="dates" id="choixDate" placeholder="jj/mm/aaaa">
+        <input type="time" class="heures" id="choixHeure" placeholder="hh:mm">       
+        
+      </div>
+    <div id="groupe1">
+       <div class="cadrevertical" >
+                <h4 id="theme">thème</h4>
+                <label id="choixNatal">natal</label>               
+            <input type="radio" id="natal" name="choix1" disabled=true>
+            <input type="radio" id="progresse" name="choix1" disabled=true>
+                <label id="choixProgresse">progressé</label><br>
+            
+                <label id="choixProgresseNatal">Maisons natales</label>
+             <input type="checkbox" id="progresseNatal" checked><br>
+                                        
+               <div id="labelprog" hidden=true> <label id="labelcoeff">sensibilité</label>
+            <input type="number" class="nombres0" id="coefforbe" step=0.02 min=0.01 value=0.5>
+            <label id="labelcoeff2">année</label></div>
+        </div> 
+        <div class="cadrevertical" > 
+            <h4>Transits <input type="number" class="nombres" id="anneeTransit" value=2017></h4>
+                <label id="choixTransitsMondiaux">1-mondiaux </label>
+                <label id="choixTransitsProgresseNatal">2-progressé/natal </label>
+                <label id="choixTransitsProgresseProgresse">3-progressé/progressé</label><br>
+            1<input type="radio" id="transitsMondiaux" name="choix2" disabled=true>                
+            2<input type="radio" id="transitsProgresseNatal" name="choix2" disabled=true>
+            3<input type="radio" id="transitsProgresseProgresse" name="choix2" disabled=true><br>
+           
+        </div>
+      </div><input type="button" id="bascule" value="bascule thème/tableau"></div>
+    
+    <div class="cadredroite">
+        <input type="checkbox" id="cachegauche" checked>
+        <input type="checkbox" id="cachecentre" checked>
+        <input type="checkbox" id="cachetitre" checked>
+        <h2 id="titrecanvas"></h2>
+        <div id="canvasTarget">
+        </div>        
+    </div>
+</div>
+        <!--<footer>
+        <iframe id="ephemeridesIframe"> contenu iframe</iframe>
+        </footer>-->
+        <script src="../js/browser-polyfill.js"></script><!--pour compatibilité chrome-->
+        <script src="../js/zodiaque.js"></script>
+        <script src="../js/fiches.js"></script>
+        <script src="../js/themes.js"></script>
+        <script src="../js/transits.js"></script>
+        <script src="../js/calculs.js"></script>
+        <script src="../js/Ephemerides-NN-Lilith_1900-2099.js"></script>
+        <script src="../js/souris.js"></script>
+        
+</body>
+</html>

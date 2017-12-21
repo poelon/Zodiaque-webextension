@@ -1,0 +1,50 @@
+{
+	"description":
+	{
+		"message": "Affichage du zodiaque et des tableaux de transits sur thèmes natal et progressé, sauvegarde des données de naissance avec option import/export",
+		"description": "Description de l'extension"
+	},
+	"signes":
+	{
+		"message": "Bélier,Taureau,Gémeaux,Cancer,Lion,Vierge,Balance,Scorpion,Sagittaire,Capricorne,Verseau,Poissons",
+		"description": "signes"
+	},
+	"planetes":
+	{
+		"message": "Soleil,Lune,Mercure,Vénus,Mars,Jupiter,Saturne,Uranus,Neptune,Pluton,Nœud Nord vrai,Lilith,Nœud Sud  ",
+		"description": "planètes"
+	},
+	"aspects":
+	{
+		"message": "conjonction,semi-sextile,semi-carré,sextile,carré,trigone,sesqui-carré,quinconce,opposition,quinconce,sesqui-carré,trigone,carré,sextile,semi-carré,semi-sextile,conjonction",
+		"description": "aspects"
+	},
+	"dignites":
+	{
+		"message": "maitrise,exil,chute,exaltation,,Maison interceptée",
+		"description": "dignités"
+	},
+	"labelsCentre":
+	{
+		"message": "maintenant,Maisons,Thème,2-progressé/natal,3-progressé/progressé,1-mondiaux,bascule thème/tableau,sensibilité,progressé,maisons natales,Maison habitée,Maison(s) gouvernée(s),an",
+		"description": "etiquettes centre"
+	},
+	"labelsGauche":
+	{
+		"message": "nom,date de naissance,heure,lieu,ajout fiche,tout effacer,annulation,mise à jour,effacement,Confirmer suppression fiche : ,Confirmer la suppression de toutes les fiches,jj/mm/aaaa,Est : positif - Ouest : négatif,Nord : positif - Sud : négatif",
+		"description": "etiquettes gauche"
+	},
+	"labelsDroite":
+	{
+		"message": "zodiaque ,lundi,mardi,mercredi,jeudi,vendredi,samedi,dimanche, né(e) le , à ,Transits mondiaux ,Transits progressé/natal ,Transits progressé/progressé ,Thème progressé,Maisons natales - le ,Maisons progressées le , (heure de naissance ,modifiée , à ,Maison,Signe,cache ,affiche ,panneau de gauche,panneau du centre,titre",
+		"description": "etiquettes droite"
+	},
+	"options":
+	{
+		"message": "ville par défaut ,sauve",
+		"description": "ville par défaut"
+	}
+	
+	
+	
+}

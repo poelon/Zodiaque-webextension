@@ -1,0 +1,43 @@
+{
+
+  "manifest_version": 2,
+  "name": "Zodiaque",
+  "version": "1.0.0.8",
+  "default_locale": "en",
+  "description": "__MSG_description__",
+  "icons": {
+    "48": "./images/logo.jpg"
+  },
+
+  "permissions": [
+    "downloads",
+    "storage"
+  ],
+
+  "applications": {
+    "gecko": {
+       "id": "zodiaque@pno.com"
+    }
+ },
+ 
+  "browser_action": {
+  "browser_style": true,
+    "default_icon": {
+     "32" : "./images/icone.svg"
+    },
+    "default_title": "zodiaque"
+  },
+  
+   "options_ui": {
+    "page": "/html/options.html"
+  },
+
+  "background": {
+    "scripts": [
+    "/js/browser-polyfill.js",
+    "/js/background.js"
+    ]
+  }
+
+
+}

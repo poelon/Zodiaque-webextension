@@ -1,0 +1,47 @@
+{
+	"description":
+	{
+		"message": "Display natal and progressed charts and transit tables, save birth coordinates with import/export option",
+		"description": "extension description"
+	},
+	"signes":
+	{
+		"message": "Aries,Taurus,Gemini,Cancer,Leo,Virgo,Libra,Scorpio,Sagittarius,Capricorn,Aquarius,Pisces",
+		"description": "signs"
+	},
+	"planetes":
+	{
+		"message": "Sun,Moon,Mercury,Venus,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto,True North Node,Lilith, South Node",
+		"description": "planets"
+	},
+	"aspects":
+	{
+		"message": "Conjunction,Semisextile,Semisquare,Sextile,Square,Trine,Sesquisquare,Quincunx,Opposition,Quincunx,Sesquisquare,Trine,Square,Sextile,Semisquare,Semisextile,Conjunction",
+		"description": "aspects"
+	},
+	"dignites":
+	{
+		"message": "Domicile,Detriment,Fall,Exaltation,,Intercepted House",
+		"description": "dignities"
+	},
+	"labelsCentre":
+	{
+		"message": "now,Houses,Chart,2-progressed/natal,3-progressed/progressed,1-outer planets,flip chart/table,sensitivity,progressed,natal houses,inhabited House,ruled House(s),year",
+		"description": "center labels"
+	},
+	"labelsGauche":
+	{
+		"message": "name,date of birth,time,place,add file,clear all,cancel,update,delete,confirm file deletion: ,confirm all files deletion,dd/mm/yyyy,East:positive - West:negative,North: positive - South: negative",
+		"description": "left labels"
+	},
+	"labelsDroite":
+	{
+		"message": "Zodiac ,Monday,Tueday,Wednesday,Thursday,Friday,Saturday,Sunday, born on , in ,outer planets Transits ,progressed/natal Transits ,progressed/progressed Transits ,progressed Chart,natal Houses on ,progressed Houses on , (time of birth ,modified , at ,House (d/m),Sign (d/m),hide ,show ,left panel,center panel,title",
+		"description": "right labels"
+	},
+	"options":
+	{
+		"message": "default location ,save",
+		"description": "default city"
+	}
+}
