@@ -18,14 +18,8 @@ function calculEphemerides(date,heure){
         positionPlanete[0]=lSol1;
         message="0 : "+String(positionPlanete[0])+"\n";
         ecartJour[0]=reboucle(lSol2-lSol1);
-        //Lune
-        var lLune1=planetesCalc(Number(an),heuredecimale,jj,1);
-        var lLune2=planetesCalc(Number(an),heuredecimale,jj+1,1);
-        positionPlanete[1]=lLune1;
-        message+="1 : "+String(positionPlanete[1])+"\n";
-        ecartJour[1]=reboucle(lLune2-lLune1);
-        //Mercure à Neptune
-        for (var i=2; i<=8; i++){
+        //Lune à Neptune
+        for (var i=1; i<=8; i++){
             var lPlan1=planetesCalc(Number(an),heuredecimale,jj,i);
             var lPlan2=planetesCalc(Number(an),heuredecimale,jj+1,i)
             positionPlanete[i]=lPlan1;
