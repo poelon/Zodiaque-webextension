@@ -37,6 +37,8 @@ function onError(error) {
 initialize();
 
 function initialize() {
+     clearBtn.disabled=true;
+     var vide=0;
      // Removing all children from an element
      while (noteContainer.firstChild) {
         noteContainer.removeChild(noteContainer.firstChild);
@@ -55,17 +57,21 @@ function initialize() {
      //console.log("clefs : "+clefs);
         if (clefs.length){
             for (let clef of clefs) {
-                if (clef=="zodiaque" || clef.search("fiche_")==-1)continue;//ville par défaut
+                //option ville par défaut ou stockages d'autres applis
+                if (clef=="zodiaque" || clef.search("fiche_")==-1){
+                    continue;
+                }
+                vide+=1;
                 var valeur = results[clef]; 
                 clef=clef.slice(6);
                 champJson.push({clef,valeur});//ne pas changer=nom des champs
                 displayNote(clef,valeur);
             }
         } 
-        else {
+        if(vide==0) {
             displayNote("Leonard de Vinci",["14/04/1452","22:30","Vinci","1","43.47","10.55"]);
         }
-        clearBtn.disabled=false;
+        else {clearBtn.disabled=false;}
     }, onError);
 }
 
