@@ -61,8 +61,11 @@ function initialize() {
                 champJson.push({clef,valeur});//ne pas changer=nom des champs
                 displayNote(clef,valeur);
             }
-            clearBtn.disabled=false;
-        }    
+        } 
+        else {
+            displayNote("Leonard de Vinci",["14/04/1452","22:30","Vinci","1","43.47","10.55"]);
+        }
+        clearBtn.disabled=false;
     }, onError);
 }
 
