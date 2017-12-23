@@ -3,6 +3,10 @@
  var label=browser.i18n.getMessage("options").split(",");
  document.getElementById("labelPlace").textContent=label[0];
  document.getElementById("bouton").textContent=label[1];
+ label=browser.i18n.getMessage("labelsGauche").split(",");
+ document.getElementById("1").textContent="    "+label[12];
+ document.getElementById("2").textContent="    "+label[13];
+ document.getElementById("3").textContent="    "+label[12];
  
 function saveOptions(e) {
     var clef="zodiaque";
@@ -13,6 +17,7 @@ function saveOptions(e) {
     }
     e.preventDefault();
     var storing=browser.storage.local.set({[clef] : valeur});
+    document.getElementById("ok").textContent="ok";
 }
 
 function restoreOptions() {

@@ -9,11 +9,12 @@
   <body>
 
     <form>
-        <label id="labelPlace"></label><input type="text" id="place" ><br>
-        <label>utc </label><input type="number" id="utcDef" class="nombres" max=24 min=-24><br>
-        <label>latitude</label><input type="number" id="latDef" class="nombres"  step=0.01 min=-90 max=90><br>
-        <label>longitude</label> <input type="number" id="longDef" class="nombres" step=0.01 min=-180 max=180><br>
+        <label class="option" id="labelPlace">ville</label><input type="text" id="place" ><br>
+        <label class="option">utc </label><input type="number" id="utcDef" class="option" max=14 min=-12><label id="1"></label> <br>
+        <label class="option">latitude</label><input type="number" id="latDef" class="option"  step=0.01 min=-90 max=90><label id="2"></label> <br>
+        <label class="option">longitude</label> <input type="number" id="longDef" class="option" step=0.01 min=-180 max=180><label id="3"></label> <br>
         <button type="submit" id="bouton">Save</button>
+        <label id="ok"></label>
     </form>
     
     <script src="../js/browser-polyfill.js"></script>
