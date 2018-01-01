@@ -1007,7 +1007,7 @@ coefforbe.addEventListener("change",() => {
 
 //teste fin de chargement de la page
 window.onload=function() {
-    commentaire.innerHTML ="Ephemerides NN-Lilith 1900-2099";
+    commentaire.innerHTML ="Ephemerides NN-Lilith 1800-2039";
     checkMaintenant.click();
     survol=1;
     android=0;

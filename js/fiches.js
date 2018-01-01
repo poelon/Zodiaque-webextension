@@ -53,7 +53,7 @@ function initialize() {
      //lecture fichier local storage (clef=nom, valeurs=date,heure,lieu,utc,latitude,longitude)
      var gettingAllStorageItems = browser.storage.local.get(null);
      gettingAllStorageItems.then((results) => {
-     var clefs = Object.keys(results);
+     var clefs = Object.keys(results); //ex. fiche_nom1, fiche_nom2
      //console.log("clefs : "+clefs);
         if (clefs.length){
             for (let clef of clefs) {

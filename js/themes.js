@@ -38,8 +38,8 @@ function calculEphemerides(date,heure){
             //rétograde si écart négatif
             retrograde[9]=0
             if (ecartJour[9]<0){retrograde[9]=1;}
-        //nbre de jours depuis le 1/01/1900 (pour recherche dans éphémérides)
-        var  refTime=new Date('1900-01-01');
+        //nbre de jours depuis le 1/01/1800 (pour recherche dans éphémérides)
+        var  refTime=new Date('1800-01-01');
         var endTime=new Date(date);
         var timeDiff = endTime - refTime;
         var daysDiff = timeDiff / (1000 * 60 * 60 * 24)+1;

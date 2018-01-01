@@ -18,13 +18,13 @@ function rechercheTransitsMondiaux(anneeTransit) {
     //date aaaa-mm-jj 
     var date=String(date0.getUTCFullYear())+"-"+ajoutZero(String(mois))+"-"+ajoutZero(String(date0.getUTCDate()));
     var jj=calcJourJulien(date,heure);
-      //nbre de jours depuis le 1/01/1900 (pour recherche dans éphémérides)
-        var  refTime=new Date('1900-01-01');
+      //nbre de jours depuis le 1/01/1800 (pour recherche dans éphémérides)
+        var  refTime=new Date('1800-01-01');
         var endTime=date0;
         var timeDiff = endTime - refTime;
         var daysDiff = timeDiff / (1000 * 60 * 60 * 24)+1;
-    //exclusion NN et Lilith si en-dehors plage 1900-2099
-    if (Number.isNaN(positionPlanete[11])==true || Number(anneeTransit) <=1899 || Number(anneeTransit || index==-1) >=2100){ijmax=9;}
+    //exclusion NN et Lilith si en-dehors plage 1800-2039
+    if (Number.isNaN(positionPlanete[11])==true || Number(anneeTransit) <=1799 || Number(anneeTransit || index==-1) >=2040){ijmax=9;}
     
  do { 
      
