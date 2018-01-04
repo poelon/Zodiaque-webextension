@@ -10,7 +10,6 @@ var boutonExport = document.getElementById("export");
 var boutonImport = document.getElementById("import");
 var fileJson = document.getElementById("filejson");
 var champJson=[];
- 
 /*  add event listeners to buttons */
 
 addBtn.addEventListener('click', addNote);
@@ -29,7 +28,7 @@ listeNoms.addEventListener("change",() => {
 
 /* generic error handler */
 function onError(error) {
-  console.log(error);
+    console.log(error);
 }
 
 /* display previously-saved stored notes on startup */
@@ -37,51 +36,85 @@ function onError(error) {
 initialize();
 
 function initialize() {
-     clearBtn.disabled=true;
-     var vide=0;
-     // Removing all children from an element
-     while (noteContainer.firstChild) {
+    clearBtn.disabled=true;
+    // Removing all children from an element
+    while (noteContainer.firstChild) {
         noteContainer.removeChild(noteContainer.firstChild);
-     }
-     while (listeNoms.firstChild) {
+    }
+    while (listeNoms.firstChild) {
         listeNoms.removeChild(listeNoms.firstChild);
-     }
-     var fiche=document.createElement('option');
-     fiche.text="modifications";
-     listenoms.appendChild(fiche);
-     champJson=[];
-     //lecture fichier local storage (clef=nom, valeurs=date,heure,lieu,utc,latitude,longitude)
-     var gettingAllStorageItems = browser.storage.local.get(null);
-     gettingAllStorageItems.then((results) => {
-     var clefs = Object.keys(results); //ex. fiche_nom1, fiche_nom2
-     //console.log("clefs : "+clefs);
+    }
+    var fiche=document.createElement('option');
+    fiche.text="modifications";
+    listenoms.appendChild(fiche);
+    champJson=[];
+    //lecture fichier local storage (clef=nom, valeurs=date,heure,lieu,utc,latitude,longitude)
+    var valeur;
+    var indice=0;
+    var items=[];
+    var gettingAllStorageItems = browser.storage.local.get(null);
+    gettingAllStorageItems.then((results) => {
+        var clefs = Object.keys(results); //ex. fiche_nom1, fiche_nom2
+        //console.log("clefs : "+clefs);
         if (clefs.length){
             for (let clef of clefs) {
-                //option ville par défaut ou stockages d'autres applis
+                //ignore option ville par défaut ou stockages d'autres applis
                 if (clef=="zodiaque" || clef.search("fiche_")==-1){
                     continue;
                 }
-                vide+=1;
-                var valeur = results[clef]; 
+                valeur = results[clef]; 
                 clef=clef.slice(6);
+                //items(array) = clef(string) + valeur(array) => conversion de valeur de Array en String
+                items[indice]=clef+"val:"+valeur; 
+                indice+=1;
                 champJson.push({clef,valeur});//ne pas changer=nom des champs
-                displayNote(clef,valeur);
             }
         } 
-        if(vide==0) {
+        
+        //affichage
+        if(indice==0) {
             displayNote("Leonard de Vinci",["14/04/1452","22:30","Vinci","1","43.47","10.55"]);
         }
-        else {clearBtn.disabled=false;}
+        else {
+            // sort by name
+            items.sort(function(a, b) {
+            var nameA = a.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            // names must be equal
+            return 0;
+            });
+            
+            //affichage
+            var abc;
+            for (var i=0; i<indice ; i++){
+                clef=items[i].split("val:")[0];
+                abc=items[i].split("val:")[1];
+                valeur=[];
+                //reconversion de valeur de String en Array
+                for (var j=0; j<=5; j++){
+                    valeur.push(abc.split(",")[j]);
+                }
+                console.log(valeur)
+               displayNote(clef,valeur);
+            }
+            clearBtn.disabled=false;
+        }
     }, onError);
 }
 
 function exportJson(fileType="application/json"){
-   if (champJson.length){
+    if (champJson.length){
         var abc= JSON.stringify(champJson,null, ' ');
         var blob = new Blob([abc], {type: fileType});
         var downloadUrl = URL.createObjectURL(blob);
         if (!android){
-        var downloading=chrome.downloads.download({
+            var downloading=chrome.downloads.download({
                 url: downloadUrl,
                 filename: "zodiaque.json",
                 saveAs: true
@@ -90,11 +123,11 @@ function exportJson(fileType="application/json"){
             var downloading=chrome.downloads.download({
                 url: downloadUrl,
                 filename: "zodiaque.json",
-              //  saveAs: true // ne marche pas avec android: pas de sauvegarde
+                //  saveAs: true // ne marche pas avec android: pas de sauvegarde
             }, onError);
         }
         URL.revokeObjectURL(blob);
-   }
+    }
 }
 
 function importJson(){
@@ -130,22 +163,26 @@ function addNote() {
     var clef;
     var valeur=[];
     do{
-       element=document.getElementById(String(i));
+        element=document.getElementById(String(i));
         if (element==null){
             max=i-1;
             break;
         } 
         if (i==0){
             clef=element.value;
+            //supprime les "," 
+            clef=clef.replace(/,/g," ");
         }else{
-            valeur[i-1]=element.value; 
+            valeur[i-1]=element.value;
+            //supprime les ","sinon pb à l'affichage (trop de champs dans array)
+            valeur[i-1]=valeur[i-1].replace(/,/g," ");
         }
         i+=1;
     }while(max==0);
     
     
-  //contrôles et sauvegarde
-  var gettingItem = browser.storage.local.get("fiche_"+clef);
+    //contrôles et sauvegarde
+    var gettingItem = browser.storage.local.get("fiche_"+clef);
     //dom.forms.datetime=true (aaaa-mm-jj ) ou false (jj/mm/aaaa) 
     //contrôle format date : aaaa-mm-jj (type date à convertir en jj/mm/aaaa) ou (jj/mm/aaaa (type text ok)
     if (choixDate.type==="date"){
@@ -164,35 +201,35 @@ function addNote() {
             storeNote(clef,valeur);
             champJson.push({clef,valeur});
             clearBtn.disabled=false;
-           // addBtn.disabled=false;
-            }
+            // addBtn.disabled=false;
+        }
     }, onError);
 }
 
 /* function to store a new note in storage */
 
 function storeNote(clef, valeur) {
- var storingNote = browser.storage.local.set({ ["fiche_"+ clef]:valeur});
-  storingNote.then(() => {
-     displayNote(clef,valeur);
-  }, onError);
+    var storingNote = browser.storage.local.set({ ["fiche_"+ clef]:valeur});
+    storingNote.then(() => {
+        displayNote(clef,valeur);
+    }, onError);
 }
 
 
 /*note display box : clef=nom+prénom, valeur=date+heure+lieu+latitude+longitude*****************************/
 
 function displayNote(clef,valeur) {
-   //liste des noms
-  var fiche=document.createElement('option');
+    //liste des noms
+    var fiche=document.createElement('option');
     fiche.value=clef;
     fiche.text=clef;
     listenoms.appendChild(fiche);
-  
-  var note = document.createElement('div');
-  var noteDisplay = document.createElement('ul');
-  var noteAffiche=[];
-  
-  //coordonnées
+    
+    var note = document.createElement('div');
+    var noteDisplay = document.createElement('ul');
+    var noteAffiche=[];
+    
+    //coordonnées
     //nom+prenom
     noteAffiche[clef+0]=document.createElement('li');
     noteAffiche[clef+0].textContent = clef;
@@ -206,33 +243,33 @@ function displayNote(clef,valeur) {
         noteDetails.appendChild(noteAffiche[clef+i]);
     }
     
-  //trait de séparation
-  var clearFix = document.createElement('div');
+    //trait de séparation
+    var clearFix = document.createElement('div');
     noteDetails.appendChild(clearFix);
-  var separation = document.createElement('p');
+    var separation = document.createElement('p');
     separation.textContent = "--------------------------";
     noteDetails.appendChild(separation);
-   //affichage 
-   noteDetails.style.display = 'none';
-   noteDisplay.appendChild(noteDetails);
-   note.appendChild(noteDisplay);
-   noteContainer.appendChild(note);
-   
-  //************listeners display box**********************
+    //affichage 
+    noteDetails.style.display = 'none';
+    noteDisplay.appendChild(noteDetails);
+    note.appendChild(noteDisplay);
+    noteContainer.appendChild(note);
+    
+    //************listeners display box**********************
     //clic sur le nom
- noteAffiche[clef+0].addEventListener('click',(e) => {
-    var date=noteAffiche[clef+1].textContent;
-    var dateJulien=date.slice(6,10) +"-"+date.slice(3,5)+"-"+date.slice(0,2);
-    var heure=noteAffiche[clef+2].textContent;
-    var jj=calcJourJulien(dateJulien,heure);
-   // jourSemaine=joursem(jj)+" "; inutile, donné par datelongue (zodiaque)
-     personne=noteAffiche[clef+0].textContent +labelsDroite[8] + datelongue(dateJulien) + " - " + heure + labelsDroite[9] + noteAffiche[clef+3].textContent + " (utc : " + noteAffiche[clef+4].textContent + ", lat. " + noteAffiche[clef+5].textContent + ", long. " + noteAffiche[clef+6].textContent + ")";
-    choixHeure.value=noteAffiche[clef+2].textContent;
-    dateNatal=noteAffiche[clef+1].textContent;
-    heureNatal=noteAffiche[clef+2].textContent;
-    nomNatal=noteAffiche[clef+0].textContent
-    okProgresse=0;
-    utc=Number(noteAffiche[clef+4].textContent);
+    noteAffiche[clef+0].addEventListener('click',(e) => {
+        var date=noteAffiche[clef+1].textContent;
+        var dateJulien=date.slice(6,10) +"-"+date.slice(3,5)+"-"+date.slice(0,2);
+        var heure=noteAffiche[clef+2].textContent;
+        var jj=calcJourJulien(dateJulien,heure);
+        // jourSemaine=joursem(jj)+" "; inutile, donné par datelongue (zodiaque)
+        personne=noteAffiche[clef+0].textContent +labelsDroite[8] + datelongue(dateJulien) + " - " + heure + labelsDroite[9] + noteAffiche[clef+3].textContent + " (utc : " + noteAffiche[clef+4].textContent + ", lat. " + noteAffiche[clef+5].textContent + ", long. " + noteAffiche[clef+6].textContent + ")";
+        choixHeure.value=noteAffiche[clef+2].textContent;
+        dateNatal=noteAffiche[clef+1].textContent;
+        heureNatal=noteAffiche[clef+2].textContent;
+        nomNatal=noteAffiche[clef+0].textContent
+        okProgresse=0;
+        utc=Number(noteAffiche[clef+4].textContent);
         //latitude
         var x=Number(noteAffiche[clef+5].textContent);
         var y=Math.floor(x);
@@ -241,132 +278,136 @@ function displayNote(clef,valeur) {
         x=Number(noteAffiche[clef+6].textContent);
         y=Math.floor(x);
         longitude=y+((x-y)*10/6);
-    checkMaintenant.checked=false;
-    choixNatal.checked=true;
-    valideBtns();
-    coeffOrbe.hidden=true;
-    labelProg.hidden=true;
-    tableau.hidden=true;
-    choix2transitsMondiaux.checked=false;
-    choix2transitsProgresseNatal.checked=false;
-    choix2transitsProgresseProgresse.checked=false;
-    requetes(dateNatal,heureNatal,personne);
+        checkMaintenant.checked=false;
+        choixNatal.checked=true;
+        valideBtns();
+        coeffOrbe.hidden=true;
+        labelProg.hidden=true;
+        tableau.hidden=true;
+        choix2transitsMondiaux.checked=false;
+        choix2transitsProgresseNatal.checked=false;
+        choix2transitsProgresseProgresse.checked=false;
+        requetes(dateNatal,heureNatal,personne);
         //sauvegarde positions planetes
         for (var i=0; i<12;i++){
-        positionNatal[i]=positionPlanete[i];
+            positionNatal[i]=positionPlanete[i];
         }
- });
- 
- //double clic sur nom: affichage ou désaffichage des champs de coordonnées
- noteAffiche[clef+0].ondblclick=function() {
-     switch(noteDetails.style.display){
+    });
+    
+    //double clic sur nom: affichage ou désaffichage des champs de coordonnées
+    noteAffiche[clef+0].ondblclick=function() {
+        switch(noteDetails.style.display){
             case "none":
                 noteDetails.style.display ='block';
                 break;
             case "block":
                 noteDetails.style.display ='none';
+        }
     }
- }
 }
- 
+
 /*************note edit box : clef=nom+prénom, valeur=date+heure+lieu+latitude+longitude************/  
 
 function editNote(clef){ 
-   var noteEdit = document.createElement('div');
-   var gettingItem = browser.storage.local.get("fiche_"+clef);
-   gettingItem.then((result) => {
+    var noteEdit = document.createElement('div');
+    var gettingItem = browser.storage.local.get("fiche_"+clef);
+    gettingItem.then((result) => {
         var objTest = Object.keys(result);
         var valeur = result["fiche_"+clef]
-   
-   
-  //coordonnées=nom,date,heure,lieu,latitude,longitude
-  var noteEdite=[];
-    //nom+prénom
-    noteEdite[0]=document.createElement('input');
-    noteEdite[0].value=clef;
-    noteEdit.appendChild(noteEdite[0]);
-    //date,heure,lieu,latitude,longitude
-    for (var i=1;i<=valeur.length;i++){
-        noteEdite[i]=document.createElement('input');
-        noteEdite[i].value = valeur[i-1];
-        noteEdit.appendChild(noteEdite[i]);
-    } 
-  //boutons 
-    //traductions
-    var labels=browser.i18n.getMessage("labelsGauche").split(",");
-  var clearFix2 = document.createElement('div');
-    noteEdit.appendChild(clearFix2);
-  var cancelBtn = document.createElement('button');
-    //cancelBtn.textContent = 'annulation';
-    cancelBtn.textContent =labelsGauche[6];
-    noteEdit.appendChild(cancelBtn);
-  var updateBtn = document.createElement('button');
-   // updateBtn.textContent = 'sauvegarde fiche';
-    updateBtn.textContent =labelsGauche[7];
-    noteEdit.appendChild(updateBtn);
-  var deleteBtn = document.createElement('button');
-    //deleteBtn.textContent = 'effacement fiche';
-    deleteBtn.textContent =labelsGauche[8];
-    noteEdit.appendChild(deleteBtn);
-    //traductions
-    
-    document.getElementById("nom").textContent=labelsGauche[0];
-  //affichage
-  noteContainer.appendChild(noteEdit);
-
-  
- /*****************************listeners edit box*******************************/
-
-    deleteBtn.addEventListener('click',(e) => {
-        var abc=labelsGauche[9];
-        if (window.confirm(abc+listeNoms.value)) { 
-            removeNote("fiche_"+listeNoms.value);
-            initialize();
-        }
-    });
-
-    //annulation modif
-    cancelBtn.addEventListener('click',() => {
-        //noteDisplay.style.display = 'block';
-        noteEdit.style.display = 'none';
-        listeNoms.value="modifications";
-    });
-    
-    //confirmation modif
-    updateBtn.addEventListener('click',() => {        
-        //vérifie formats date et heure
-        if (noteEdite[1].value.split('/').length===3 && noteEdite[1].value.length==10 && noteEdite[2].value.split(':').length===2 && noteEdite[2].value.length==5){
-          var clef=noteEdite[0].value;
-          //valeur = date naissance + heure + lieu + latitude + longitude
-          var valeur=[];
-             for (i=0;i<noteEdite.length-1;i++){
-                valeur[i]=noteEdite[i+1].value;
-             }
-          //écriture
-          updateNote(listeNoms.value,clef,valeur);
-        }
-    }); 
-    
- });  
+        
+        
+        //coordonnées=nom,date,heure,lieu,latitude,longitude
+        var noteEdite=[];
+        //nom+prénom
+        noteEdite[0]=document.createElement('input');
+        noteEdite[0].value=clef;
+        noteEdit.appendChild(noteEdite[0]);
+        //date,heure,lieu,latitude,longitude
+        for (var i=1;i<=valeur.length;i++){
+            noteEdite[i]=document.createElement('input');
+            noteEdite[i].value = valeur[i-1];
+            noteEdit.appendChild(noteEdite[i]);
+        } 
+        //boutons 
+        //traductions
+        var labels=browser.i18n.getMessage("labelsGauche").split(",");
+        var clearFix2 = document.createElement('div');
+        noteEdit.appendChild(clearFix2);
+        var cancelBtn = document.createElement('button');
+        //cancelBtn.textContent = 'annulation';
+        cancelBtn.textContent =labelsGauche[6];
+        noteEdit.appendChild(cancelBtn);
+        var updateBtn = document.createElement('button');
+        // updateBtn.textContent = 'sauvegarde fiche';
+        updateBtn.textContent =labelsGauche[7];
+        noteEdit.appendChild(updateBtn);
+        var deleteBtn = document.createElement('button');
+        //deleteBtn.textContent = 'effacement fiche';
+        deleteBtn.textContent =labelsGauche[8];
+        noteEdit.appendChild(deleteBtn);
+        //traductions
+        
+        document.getElementById("nom").textContent=labelsGauche[0];
+        //affichage
+        noteContainer.appendChild(noteEdit);
+        
+        
+        /*****************************listeners edit box*******************************/
+        
+        deleteBtn.addEventListener('click',(e) => {
+            var abc=labelsGauche[9];
+            if (window.confirm(abc+listeNoms.value)) { 
+                removeNote("fiche_"+listeNoms.value);
+                initialize();
+            }
+        });
+        
+        //annulation modif
+        cancelBtn.addEventListener('click',() => {
+            //noteDisplay.style.display = 'block';
+            noteEdit.style.display = 'none';
+            listeNoms.value="modifications";
+        });
+        
+        //confirmation modif
+        updateBtn.addEventListener('click',() => {        
+            //vérifie formats date et heure
+            if (noteEdite[1].value.split('/').length===3 && noteEdite[1].value.length==10 && noteEdite[2].value.split(':').length===2 && noteEdite[2].value.length==5){
+                var clef=noteEdite[0].value;
+                //supprime les ","
+                clef=clef.replace(/,/g," ");
+                //valeur = date naissance + heure + lieu + latitude + longitude
+                var valeur=[];
+                for (i=0;i<noteEdite.length-1;i++){
+                    valeur[i]=noteEdite[i+1].value;
+                    //supprime les ","sinon pb à l'affichage (trop de champs dans array)
+                    valeur[i]=valeur[i].replace(/,/g," ");
+                }
+                //écriture
+                updateNote(listeNoms.value,clef,valeur);
+            }
+        }); 
+        
+    });  
 }
 // fin editNote
 
 /* function to update notes */
 
 function updateNote(delNote,clef,valeur) {
-  var storingNote = browser.storage.local.set({ ["fiche_"+ clef] : valeur});
-  storingNote.then(() => {
-      if(delNote !== clef) {
-      removeNote("fiche_"+delNote);
-      }
-      initialize();
-  }, onError);
+    var storingNote = browser.storage.local.set({ ["fiche_"+ clef] : valeur});
+    storingNote.then(() => {
+        if(delNote !== clef) {
+            removeNote("fiche_"+delNote);
+        }
+        initialize();
+    }, onError);
 }
 
 function removeNote(delNote){
-     var removingNote = browser.storage.local.remove(delNote);
-      removingNote.then(() => {
-      }, onError);
+    var removingNote = browser.storage.local.remove(delNote);
+    removingNote.then(() => {
+    }, onError);
 } 
 
 /* Clear all notes from the display/storage */

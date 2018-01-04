@@ -199,39 +199,39 @@ function rechercheMaisons(heure,date){
      }
      
      //maisons gouvernées
-        //signes en fonction des planètes; ex g[0]=soleil=4 (lion), g[2]=mercure=2 (gémeaux) et 5 (vierge)
-        var g=[[4,4],[3,3],[2,5],[1,6],[0,7],[8,11],[9,10],[9,10],[8,11],[0,7]];
-        planeteGouverne=[[],[],[],[],[],[],[],[],[],[]];
-    for (var i=0; i<=11;i++){
+     //signes en fonction des planètes; ex g[0]=soleil=4 (lion), g[2]=mercure=2 (gémeaux) et 5 (vierge)
+     var g=[[4,4],[3,3],[2,5],[1,6],[0,7],[8,11],[9,10],[9,10],[8,11],[0,7]];
+     planeteGouverne=[[],[],[],[],[],[],[],[],[],[]];
+     for (var i=0; i<=11;i++){
          var a=convDegres(positionMaison[i]).signe;
          for (var j=0; j<=9;j++){
-            if (a==g[j][0] || a==g[j][1]){
-                var k=planeteGouverne[j].length;
-                planeteGouverne[j][k]=i;
-            }
-        }
-    }
+             if (a==g[j][0] || a==g[j][1]){
+                 var k=planeteGouverne[j].length;
+                 planeteGouverne[j][k]=i;
+             }
+         }
+     }
     
     //maisons interceptées
     for (var i=0; i<=9;i++){
-            var a=g[i].length;
-            var b=planeteGouverne[i].length;
-            for (var j=0;j<a;j++){
-                var min=30*g[i][j]
-                var max=min+30;
-                for (var k=0;k<=11;k++){
-                    var l=k+1;
-                    if (l>11) l=0;
-                    var m1=positionMaison[k];
-                    var m2=positionMaison[l];
-                        //passage à 0 ?
-                        var [a1,a2,offset]= testBoucle(m1,m2);
-                    if (a1<min && a2>max){
-                        planeteGouverne[i][b]=k+100; //100 permet la détection pour écrire en mauve dans le tableau
-                        break;
-                    }
-                } 
-           }                
+        var a=g[i].length;
+        var b=planeteGouverne[i].length;
+        for (var j=0;j<a;j++){
+            var min=30*g[i][j]
+            var max=min+30;
+            for (var k=0;k<=11;k++){
+                var l=k+1;
+                if (l>11) l=0;
+                var m1=positionMaison[k];
+                var m2=positionMaison[l];
+                //passage à 0 ?
+                var [a1,a2,offset]= testBoucle(m1,m2);
+                if (a1<min && a2>max){
+                    planeteGouverne[i][b]=k+100; //100 permet la détection pour écrire en mauve dans le tableau
+                    break;
+                }
+            } 
+        }                
     }
 }
 
