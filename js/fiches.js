@@ -170,8 +170,6 @@ function addNote() {
         } 
         if (i==0){
             clef=element.value;
-            //supprime les "," 
-            clef=clef.replace(/,/g," ");
         }else{
             valeur[i-1]=element.value;
             //supprime les ","sinon pb à l'affichage (trop de champs dans array)
@@ -374,8 +372,6 @@ function editNote(clef){
             //vérifie formats date et heure
             if (noteEdite[1].value.split('/').length===3 && noteEdite[1].value.length==10 && noteEdite[2].value.split(':').length===2 && noteEdite[2].value.length==5){
                 var clef=noteEdite[0].value;
-                //supprime les ","
-                clef=clef.replace(/,/g," ");
                 //valeur = date naissance + heure + lieu + latitude + longitude
                 var valeur=[];
                 for (i=0;i<noteEdite.length-1;i++){
