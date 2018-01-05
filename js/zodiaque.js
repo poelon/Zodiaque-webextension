@@ -385,7 +385,7 @@ var tSigne=20,
     setCanvas();
     ctx1 = canvas1.getContext("2d");
     ctx2 = canvas2.getContext("2d");
-    var centre=[canvas1.width/2,canvas1.height/2.8];
+    var centre=[canvas1.width/2,canvas1.height/2.6];
     var rayon=0.3*canvas1.width //width;   
     
     //tracé axe X

@@ -5,11 +5,13 @@
 var noteContainer = document.querySelector('.note-container');
 var clearBtn = document.querySelector('.clear');
 var addBtn = document.querySelector('.add');
-var listeNoms=document.getElementById('listenoms');
+var listeNoms=document.getElementById('listenoms'); //obsolete
 var boutonExport = document.getElementById("export");
 var boutonImport = document.getElementById("import");
 var fileJson = document.getElementById("filejson");
 var champJson=[];
+var noteAffiche=[];
+var okEdit=0;
 /*  add event listeners to buttons */
 
 addBtn.addEventListener('click', addNote);
@@ -22,7 +24,7 @@ boutonImport.addEventListener('click',() => {
     fileJson.click();
 },onError);
 //ne marche pas : listeNoms.addEventListener("change",editNote(listeNoms.value));
-listeNoms.addEventListener("change",() => {
+listeNoms.addEventListener("change",() => { //obsolete
     editNote(listeNoms.value);
 },onError);
 
@@ -57,7 +59,7 @@ function initialize() {
         var clefs = Object.keys(results); //ex. fiche_nom1, fiche_nom2
         //console.log("clefs : "+clefs);
         if (clefs.length){
-            for (let clef of clefs) {
+            for (var clef of clefs) {
                 //ignore option ville par défaut ou stockages d'autres applis
                 if (clef=="zodiaque" || clef.search("fiche_")==-1){
                     continue;
@@ -100,7 +102,6 @@ function initialize() {
                 for (var j=0; j<=5; j++){
                     valeur.push(abc.split(",")[j]);
                 }
-                console.log(valeur)
                displayNote(clef,valeur);
             }
             clearBtn.disabled=false;
@@ -225,7 +226,7 @@ function displayNote(clef,valeur) {
     
     var note = document.createElement('div');
     var noteDisplay = document.createElement('ul');
-    var noteAffiche=[];
+   // var noteAffiche=[];
     
     //coordonnées
     //nom+prenom
@@ -256,6 +257,7 @@ function displayNote(clef,valeur) {
     //************listeners display box**********************
     //clic sur le nom
     noteAffiche[clef+0].addEventListener('click',(e) => {
+      if (okEdit==0){
         var date=noteAffiche[clef+1].textContent;
         var dateJulien=date.slice(6,10) +"-"+date.slice(3,5)+"-"+date.slice(0,2);
         var heure=noteAffiche[clef+2].textContent;
@@ -290,17 +292,22 @@ function displayNote(clef,valeur) {
         for (var i=0; i<12;i++){
             positionNatal[i]=positionPlanete[i];
         }
+      }
     });
     
     //double clic sur nom: affichage ou désaffichage des champs de coordonnées
     noteAffiche[clef+0].ondblclick=function() {
-        switch(noteDetails.style.display){
+        if (okEdit==0){ 
+            okEdit=1;
+            editNote(clef);
+        }
+      /*  switch(noteDetails.style.display){
             case "none":
                 noteDetails.style.display ='block';
                 break;
             case "block":
                 noteDetails.style.display ='none';
-        }
+        }*/
     }
 }
 
@@ -312,7 +319,6 @@ function editNote(clef){
     gettingItem.then((result) => {
         var objTest = Object.keys(result);
         var valeur = result["fiche_"+clef]
-        
         
         //coordonnées=nom,date,heure,lieu,latitude,longitude
         var noteEdite=[];
@@ -344,18 +350,20 @@ function editNote(clef){
         deleteBtn.textContent =labelsGauche[8];
         noteEdit.appendChild(deleteBtn);
         //traductions
-        
         document.getElementById("nom").textContent=labelsGauche[0];
         //affichage
-        noteContainer.appendChild(noteEdit);
-        
+        noteAffiche[clef+0].appendChild(noteEdit);
         
         /*****************************listeners edit box*******************************/
         
         deleteBtn.addEventListener('click',(e) => {
             var abc=labelsGauche[9];
-            if (window.confirm(abc+listeNoms.value)) { 
-                removeNote("fiche_"+listeNoms.value);
+           // if (window.confirm(abc+listeNoms.value)) { 
+            if (window.confirm(abc+clef)) { 
+               // removeNote("fiche_"+listeNoms.value);
+                noteAffiche[clef+0].removeChild(noteEdit);
+                okEdit=0;
+                removeNote("fiche_"+clef);
                 initialize();
             }
         });
@@ -363,7 +371,9 @@ function editNote(clef){
         //annulation modif
         cancelBtn.addEventListener('click',() => {
             //noteDisplay.style.display = 'block';
-            noteEdit.style.display = 'none';
+           // noteEdit.style.display = 'none';
+            noteAffiche[clef+0].removeChild(noteEdit);
+            okEdit=0;
             listeNoms.value="modifications";
         });
         
@@ -371,7 +381,9 @@ function editNote(clef){
         updateBtn.addEventListener('click',() => {        
             //vérifie formats date et heure
             if (noteEdite[1].value.split('/').length===3 && noteEdite[1].value.length==10 && noteEdite[2].value.split(':').length===2 && noteEdite[2].value.length==5){
-                var clef=noteEdite[0].value;
+                noteAffiche[clef+0].removeChild(noteEdit);
+                okEdit=0;
+                clef=noteEdite[0].value;
                 //valeur = date naissance + heure + lieu + latitude + longitude
                 var valeur=[];
                 for (i=0;i<noteEdite.length-1;i++){
