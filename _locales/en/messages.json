@@ -43,5 +43,10 @@
 	{
 		"message": "default location ,save",
 		"description": "default city"
+	},
+	"groupes":
+	{
+		"message": "-----,create group,rename group,general",
+		"description": "groupes"
 	}
 }
