@@ -46,7 +46,7 @@
 	},
 	"groupes":
 	{
-		"message": "-----,create group,rename group,edit groups,general",
+		"message": "-----,create group,rename group,assign groups,general",
 		"description": "groupes"
 	}
 }

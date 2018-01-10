@@ -58,6 +58,7 @@ groupesListe.addEventListener("change",() => {
         //éditer groupes
         case labelsGroupes[3]:
             efface(noteContainer);
+            groupesListe.disabled=true;
             editeGroupes();
             break;
         //nom d'un groupe
@@ -70,7 +71,7 @@ groupesListe.addEventListener("change",() => {
     }
 },onError);
 
-function editeGroupes(nom){
+function editeGroupes(){
     var nom,select,option,element;
     for (var i=0; i<fiches.length; i++){
         nom=document.createElement('label');
@@ -87,33 +88,37 @@ function editeGroupes(nom){
         noteContainer.appendChild(select);
         element=document.createElement('br');
         noteContainer.appendChild(element);
-    }
-    
+    }    
     boutonsGroupes();
-    //listeners
-    boutonAnnuler.addEventListener('click',() => {
-        boutonsDefaut();
-        initialize();
-    });
-    boutonOk.addEventListener('click',() => {
-        for (var i=0; i<fiches.length; i++){
-            element=document.getElementById("ele"+String(i));
-            if (element.value != fiches[i].groupe){
-                //écriture nouveau groupe
-                updateNote(fiches[i].nom,fiches[i].nom,fiches[i].details,element.value);
-                console.log("mise à jour : " + fiches[i].nom + " groupe : " + element.value);
-                //effacement ancien groupe
-                var removingNote = browser.storage.local.remove("fiche_"+fiches[i].nom+"/*"+fiches[i].groupe);
-                removingNote.then(() => {
-                   // console.log("effacement : " + fiches[i].nom + " groupe : " + fiches[i].groupe);//génère message d'erreur !
-                }, onError);
-                fiches[i].groupe=element.value;
-            }
+} 
+
+//listeners (ne pas mettre à l'intérieur de "editeGroupes()" sinon répétitions...
+boutonAnnuler.addEventListener('click',() => {
+    boutonsDefaut();
+    groupesListe.disabled=false;
+    initialize();
+});
+
+boutonOk.addEventListener('click',() => {
+    for (var i=0; i<fiches.length; i++){
+        element=document.getElementById("ele"+String(i));
+        if (element.value != fiches[i].groupe){
+            //écriture nouveau groupe
+            updateNote(fiches[i].nom,fiches[i].nom,fiches[i].details,element.value);
+            console.log("mise à jour : " + fiches[i].nom + " groupe : " + element.value);
+            //effacement ancien groupe
+            var removingNote = browser.storage.local.remove("fiche_"+fiches[i].nom+"/*"+fiches[i].groupe);
+            removingNote.then(() => {
+                // console.log("effacement : " + fiches[i].nom + " groupe : " + fiches[i].groupe);//génère message d'erreur !
+            }, onError);
+            // fiches[i].groupe=element.value;
         }
-        boutonsDefaut();
-        initialize();
-    });
-}
+    }
+    boutonsDefaut();
+    groupesListe.disabled=false;
+    initialize();
+});
+
 function renommeGroupe(nom){
     alert(nom);
 }
@@ -296,7 +301,6 @@ function exportJson(fileType="application/json"){
 }
 
 function importJson(){
-
     var reader = new FileReader();
     var file = fileJson.files[0];
     var abc=""
@@ -319,7 +323,7 @@ function importJson(){
         clearBtn.disabled=false;
         console.log('réception données json terminé !');
     }
-   // initialize();
+    initialize();
 }    
 
 
@@ -395,7 +399,7 @@ function storeNote(clef, valeur, groupe) {
     if (!groupe){groupe=groupeDefaut;}
     var storingNote = browser.storage.local.set({ ["fiche_"+ clef + "/*" + groupe]:valeur});
     storingNote.then(() => {
-        displayNote(clef,valeur);
+      //  displayNote(clef,valeur);
     }, onError);
 }
 
@@ -404,16 +408,11 @@ function storeNote(clef, valeur, groupe) {
 
 function displayNote(clef,valeur) {
     //liste des noms
- /*   var fiche=document.createElement('option');
-    fiche.value=clef;
-    fiche.text=clef;
-    groupes.appendChild(fiche);*/
     
     var note = document.createElement('div');
     var noteDisplay = document.createElement('ul');
-   // var noteAffiche=[];
     
-    //coordonnées
+  //coordonnées
     //nom+prenom
     noteAffiche[clef+0]=document.createElement('li');
     noteAffiche[clef+0].textContent = clef;
@@ -492,6 +491,12 @@ function displayNote(clef,valeur) {
 /*************note edit box : clef=nom+prénom, valeur=date+heure+lieu+latitude+longitude************/  
 
 function editNote(clef){
+    //dévalide boutons
+    clearBtn.disabled=true;
+    boutonImport.disabled=true;
+    boutonExport.disabled=true;
+    groupesListe.disabled=true;
+    addBtn.disabled=true;
     //recherche fiche
     for (var i=0; i<fiches.length; i++){
         if (fiches[i].nom==clef){
@@ -546,6 +551,7 @@ function editNote(clef){
             noteAffiche[clef+0].removeChild(noteEdit);
             okEdit=1;
             removeNote("fiche_"+clef+"/*"+groupe);
+            validBtns();
             initialize();
         }
     });
@@ -554,6 +560,7 @@ function editNote(clef){
     cancelBtn.addEventListener('click',() => {
         noteAffiche[clef+0].removeChild(noteEdit);
         okEdit=1;
+        validBtns();
     });
     
     //confirmation modif
@@ -573,10 +580,20 @@ function editNote(clef){
             }
             //écriture disque
             updateNote(clef_old,clef,valeur,groupe,1);
+            validBtns();
         }
     }); 
 }
 // fin editNote
+
+function validBtns(){
+//valide boutons
+    clearBtn.disabled=false;
+    boutonImport.disabled=false;
+    boutonExport.disabled=false;
+    groupesListe.disabled=false;
+    addBtn.disabled=false;
+}
 
 /* function to update notes */
 
