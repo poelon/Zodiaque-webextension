@@ -3,11 +3,14 @@
 
 //si ajout ou suppression d'un champ, ajuster ligne 74 : max-3
 var noteContainer = document.querySelector('.note-container');
+var cadreBas = document.querySelector('.cadregaucheverticalbas');
 var clearBtn = document.querySelector('.clear');
 var addBtn = document.querySelector('.add');
 var groupesListe=document.getElementById('groupes');
 var boutonExport = document.getElementById("export");
 var boutonImport = document.getElementById("import");
+var boutonAnnuler = document.getElementById("annuler");
+var boutonOk = document.getElementById("ok");
 var fileJson = document.getElementById("filejson");
 var champJson=[];
 var noteAffiche=[];
@@ -15,8 +18,10 @@ var okEdit=1;
 
 //traductions groupes
 var labelsGroupes=browser.i18n.getMessage("groupes").split(",");
-var groupesNoms;
-var groupeDefaut=labelsGroupes[3];
+boutonAnnuler.value = labelsGauche[6];
+boutonOk.value = labelsGauche[7];
+var groupesNoms=[];
+var groupeDefaut=labelsGroupes[4];
 
 /*  add event listeners to buttons */
 
@@ -50,20 +55,82 @@ groupesListe.addEventListener("change",() => {
         //renommer groupe
         case labelsGroupes[2]:
             break;
+        //éditer groupes
+        case labelsGroupes[3]:
+            efface(noteContainer);
+            editeGroupes();
+            break;
         //nom d'un groupe
         default:
-            // Removing all children from an element
-            while (noteContainer.firstChild) {
-                noteContainer.removeChild(noteContainer.firstChild);
-            }
+            efface(noteContainer);
             //affichage
             for (var i=0; i<fiches.length; i++){
                 if (fiches[i].groupe==groupesListe.value){displayNote(fiches[i].nom,fiches[i].details);}
             }
     }
 },onError);
-   
 
+function editeGroupes(nom){
+    var nom,select,option,element;
+    for (var i=0; i<fiches.length; i++){
+        nom=document.createElement('label');
+        nom.textContent=fiches[i].nom;
+        noteContainer.appendChild(nom);
+        select=document.createElement('select');
+        select.setAttribute("id","ele"+String(i));
+        for (var j=0; j<groupesNoms.length; j++){
+            option=document.createElement('option');
+            option.text=groupesNoms[j];
+            if (option.text==fiches[i].groupe){option.selected=true;}
+            select.appendChild(option);
+        }
+        noteContainer.appendChild(select);
+        element=document.createElement('br');
+        noteContainer.appendChild(element);
+    }
+    
+    boutonsGroupes();
+    //listeners
+    boutonAnnuler.addEventListener('click',() => {
+        boutonsDefaut();
+        initialize();
+    });
+    boutonOk.addEventListener('click',() => {
+        for (var i=0; i<fiches.length; i++){
+            element=document.getElementById("ele"+String(i));
+            if (element.value != fiches[i].groupe){
+                //écriture nouveau groupe
+                updateNote(fiches[i].nom,fiches[i].nom,fiches[i].details,element.value);
+                console.log("mise à jour : " + fiches[i].nom + " groupe : " + element.value);
+                //effacement ancien groupe
+                var removingNote = browser.storage.local.remove("fiche_"+fiches[i].nom+"/*"+fiches[i].groupe);
+                removingNote.then(() => {
+                   // console.log("effacement : " + fiches[i].nom + " groupe : " + fiches[i].groupe);//génère message d'erreur !
+                }, onError);
+                fiches[i].groupe=element.value;
+            }
+        }
+        boutonsDefaut();
+        initialize();
+    });
+}
+function renommeGroupe(nom){
+    alert(nom);
+}
+function boutonsDefaut(){
+    clearBtn.hidden=false;
+    boutonImport.hidden=false;
+    boutonExport.hidden=false;
+    boutonAnnuler.hidden=true;
+    boutonOk.hidden=true;
+}
+function boutonsGroupes(){
+    clearBtn.hidden=true;
+    boutonImport.hidden=true;
+    boutonExport.hidden=true;
+    boutonAnnuler.hidden=false;
+    boutonOk.hidden=false;
+}
 /* generic error handler */
 function onError(error) {
     console.log(`Erreur: ${error}`);
@@ -73,19 +140,21 @@ function onError(error) {
 
 initialize();
 
+function efface(zone) {
+    // Removing all children from an element
+    while (zone.firstChild) {
+        zone.removeChild(zone.firstChild);
+    }
+}
+
 function initialize() {
     clearBtn.disabled=true;
-    // Removing all children from an element
-    while (noteContainer.firstChild) {
-        noteContainer.removeChild(noteContainer.firstChild);
-    }
-    while (groupesListe.firstChild) {
-        groupesListe.removeChild(groupesListe.firstChild);
-    }
+    efface(noteContainer);
+    efface(groupesListe);
     //options des groupes (créer, renommmer,etc.)
     groupesNoms=[groupeDefaut];//général
     var element;
-    for (var i=0 ; i<=2; i++){
+    for (var i=0 ; i<=3; i++){
         element=document.createElement('option');
         if (i==0){element.setAttribute("id","trait");}
         element.text=labelsGroupes[i];
@@ -98,6 +167,7 @@ function initialize() {
     groupesListe.insertBefore(element, trait);
     //
     champJson=[];
+    fiches = [];
     //lecture fichier local storage (clef=nom, valeurs=date,heure,lieu,utc,latitude,longitude)
     var valeur;
     var indice=0;
@@ -202,9 +272,6 @@ function initialize() {
     }, onError);
 }
 
-function renommeGroupe(nom){
-    alert(nom);
-}
 
 function exportJson(fileType="application/json"){
     if (champJson.length){
@@ -229,7 +296,7 @@ function exportJson(fileType="application/json"){
 }
 
 function importJson(){
-    
+
     var reader = new FileReader();
     var file = fileJson.files[0];
     var abc=""
@@ -252,6 +319,7 @@ function importJson(){
         clearBtn.disabled=false;
         console.log('réception données json terminé !');
     }
+   // initialize();
 }    
 
 
