@@ -2,6 +2,7 @@
 //source : https://github.com/mdn/webextensions-examples/tree/master/quicknote
 
 //si ajout ou suppression d'un champ, ajuster ligne 74 : max-3
+var fileContainer = document.querySelector('.file-container');
 var noteContainer = document.querySelector('.note-container');
 var cadreBas = document.querySelector('.cadregaucheverticalbas');
 var clearBtn = document.querySelector('.clear');
@@ -46,16 +47,19 @@ var fiches = [];
 //ne marche pas : groupes.addEventListener("change",editNote(groupes.value));
 groupesListe.addEventListener("change",() => {
     switch (groupesListe.value){
-        //en-tête et trait
+        //trait
         case labelsGroupes[0]:
             break;
         //créer groupe
         case labelsGroupes[1]:
+            efface(noteContainer);
+            groupesListe.disabled=true;
+            creeGroupe();
             break;
         //renommer groupe
         case labelsGroupes[2]:
             break;
-        //éditer groupes
+        //assigner groupes
         case labelsGroupes[3]:
             efface(noteContainer);
             groupesListe.disabled=true;
@@ -70,6 +74,62 @@ groupesListe.addEventListener("change",() => {
             }
     }
 },onError);
+
+function creeGroupe(){
+    
+    var element=document.createElement('input');
+    element.setAttribute("id","entree");
+    fileContainer.appendChild(element);
+    var entree=document.getElementById("entree");
+    
+    var cancelBtn = document.createElement('button');
+    cancelBtn.setAttribute("id","annuleCree");
+    cancelBtn.textContent =labelsGauche[6];
+    fileContainer.appendChild(cancelBtn);
+    var annuleCree=document.getElementById("annuleCree");
+    
+    var okBtn = document.createElement('button');
+    okBtn.setAttribute("id","okCree");
+    okBtn.textContent ="ok";
+    fileContainer.appendChild(okBtn);
+    var okCree=document.getElementById("okCree");
+    
+    //listeners
+    cancelBtn.addEventListener('click',() => {
+        clearChild();
+        groupesListe.disabled=false;
+        element=document.getElementById("trait");
+        element.selected=true;
+        //initialize();
+    });
+    okBtn.addEventListener('click',() => {
+        var ajout=1;
+        for (var j=0; j<groupesNoms.length; j++){
+            if (groupesNoms[j]==entree.value){
+                entree.value=labelsGroupes[5]; //"existe déjà";
+                ajout=0;
+                break;
+            }
+        }
+        if (ajout==1){
+            groupesNoms[groupesNoms.length]=entree.value;
+            element=document.createElement('option');
+            element.text=entree.value;
+            groupesListe.insertBefore(element, trait);
+            
+            clearChild();
+            groupesListe.disabled=false;
+            element=document.getElementById("trait");
+            element.selected=true;
+        }
+    });
+}
+
+function clearChild(){
+    fileContainer.removeChild(entree);
+    fileContainer.removeChild(annuleCree);
+    fileContainer.removeChild(okCree);
+}
 
 function editeGroupes(){
     var nom,select,option,element;
@@ -92,7 +152,7 @@ function editeGroupes(){
     boutonsGroupes();
 } 
 
-//listeners (ne pas mettre à l'intérieur de "editeGroupes()" sinon répétitions...
+//listeners pour "editeGroupes" (ne pas mettre à l'intérieur de "editeGroupes()" sinon répétitions...)
 boutonAnnuler.addEventListener('click',() => {
     boutonsDefaut();
     groupesListe.disabled=false;
@@ -323,7 +383,7 @@ function importJson(){
         clearBtn.disabled=false;
         console.log('réception données json terminé !');
     }
-    initialize();
+    //initialize(); //ne fonctionne pas
 }    
 
 

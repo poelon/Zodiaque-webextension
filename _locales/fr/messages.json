@@ -46,7 +46,7 @@
 	},
 	"groupes":
 	{
-		"message": "-----,créer groupe,renommer groupe,assigner groupes,général",
+		"message": "-----,créer groupe,renommer groupe,assigner groupes,général,existe déjà",
 		"description": "groupes"
 	}
 	
