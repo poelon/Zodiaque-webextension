@@ -46,7 +46,7 @@
 	},
 	"groupes":
 	{
-		"message": "-----,create group,rename group,assign groups,general,already in use",
+		"message": "-----,create group,rename/delete group,assign groups,general,already in use,assign at least one person to the group,if group cleared transfer of names in the general group",
 		"description": "groupes"
 	}
 }
