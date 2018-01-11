@@ -43,6 +43,11 @@
 	{
 		"message": "ville par défaut ,sauve",
 		"description": "ville par défaut"
+	},
+	"groupes":
+	{
+		"message": "-----,créer groupe,renommer/effacer groupe,assigner groupes,général,existe déjà,assigner au moins une personne au groupe,si groupe effacé transfert des noms dans le groupe général",
+		"description": "groupes"
 	}
 	
 	
