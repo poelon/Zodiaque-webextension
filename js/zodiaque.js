@@ -32,8 +32,11 @@ var canvasTarget = document.getElementById("canvasTarget"),
     labelProg=document.getElementById("labelprog"),
     fileElem = document.getElementById("fileElem"),
     choixUtc=document.getElementById("utc"),
+    valUtc=document.getElementById("4"),
     choixLatitude=document.getElementById("latitude"),
+    valLatitude=document.getElementById("5"),
     choixLongitude=document.getElementById("longitude"),
+    valLongitude=document.getElementById("6"),
     epheFrame=document.getElementById("ephemeridesIframe");
 var personne="?",
     canvas,
@@ -264,6 +267,13 @@ function tableauResume(){
                     if (retrograde[i]){
                         cell.style.font = '12px serif';
                         cell.textContent="R";
+                        //message au survol souris
+                        cell.onmouseover=function(e){
+                            displayDivInfo("retrograde",e.clientX,e.clientY);
+                        }
+                        cell.onmouseout=function(){
+                            displayDivInfo();
+                        }
                     }
                     break;
                 case 2:
@@ -839,9 +849,9 @@ function requetes(date,heure,nom){
         var objTest = Object.keys(result);
         if (objTest.length){
             placeDef=result.zodiaque[0];
-            utcDef=result.zodiaque[1];
-            latDef=result.zodiaque[2];
-            longDef=result.zodiaque[3];
+            valUtc.value=utcDef=result.zodiaque[1];
+            valLatitude.value=latDef=result.zodiaque[2];
+            valLongitude.value=longDef=result.zodiaque[3];
         }
      },onError);
 

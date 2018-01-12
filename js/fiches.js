@@ -15,6 +15,7 @@ var fileJson = document.getElementById("filejson");
 var champJson=[];
 var noteAffiche=[];
 var okEdit=1;
+var error = document.querySelector('.error');
 
 //traductions groupes
 var labelsGroupes=browser.i18n.getMessage("groupes").split(",");
@@ -25,7 +26,20 @@ var groupeDefaut=labelsGroupes[4];
 
 /*  add event listeners to buttons */
 
-addBtn.addEventListener('click', addNote);
+addBtn.addEventListener('click', function(){
+    var total=0,element,abc="";
+    for (var i=0; i<=6; i++){
+        element=document.getElementById(String(i));
+        if (!element.value){
+            abc +=labelsGauche[i]+", ";
+            continue;
+        }
+        total+=1;
+    }
+    if (total==7){addNote();}
+    else {error.innerText=labelsGauche[15]+"  "+ abc;}
+});
+
 clearBtn.addEventListener('click', clearAll);
 boutonExport.addEventListener('click', exportJson);
 fileJson.addEventListener('change', () => {
@@ -470,18 +484,21 @@ function addNote() {
     //contrôle format date : aaaa-mm-jj (type date à convertir en jj/mm/aaaa) ou (jj/mm/aaaa (type text ok)
     if (choixDate.type==="date"){
         var abc=valeur[0];
-        valeur[0]=abc.split("-")[2]+"/"+abc.split("-")[1]+"/"+abc.split("-")[0];//abc.slice(8,10) +"/"+abc.slice(5,7)+"/"+ abc.slice(0,4); 
+        valeur[0]=abc.split("-")[2]+"/"+abc.split("-")[1]+"/"+abc.split("-")[0];
     }   
     //vérif si nom existe déjà
     var addOk=1;    
     for (var i=0; i<fiches.length; i++){
         if (fiches[i].nom==clef){
+            error.innerText = fiches[i].nom + "  " + labelsGroupes[5] + " (" + fiches[i].groupe + ")"; //"existe déjà";
             addOk=0;
             break;
         }
     }
+    if (addOk==1){error.innerText ="";}
+    
     //autres contrôles
-    if(addOk==1 && clef !== '' && valeur[0] !== '' && valeur[1] !== '' && valeur[2] !== '' && valeur[0].split('/').length===3 && valeur[0].length==10 && valeur[1].split(':').length===2 && valeur[1].length==5) {
+    if(addOk==1 && clef !== '' && valeur[0].split('/').length===3 && valeur[0].length==10 && valeur[1].split(':').length===2 && valeur[1].length==5) {
         //efacement des champs sauf utc, latitude et longitude (adapter max-3 si ajout ou suppression de champs)
         for (var i=0;i<=max-3;i++){
             element=document.getElementById(String(i)); 
@@ -502,6 +519,8 @@ function addNote() {
         champJson.push({clef,valeur});
         clearBtn.disabled=false;
         initialize(groupe);
+    }else{
+        if (!error.innerText) {error.innerText= labelsGauche[14];} //erreur
     }
 }
 

@@ -31,7 +31,7 @@
 	},
 	"labelsGauche":
 	{
-		"message": "nom,date de naissance,heure,lieu,ajout fiche,tout effacer,annulation,mise à jour,effacement,Confirmer suppression fiche : ,Confirmer la suppression de toutes les fiches,jj/mm/aaaa,Est : positif - Ouest : négatif,Nord : positif - Sud : négatif",
+		"message": "nom,date de naissance,heure,lieu,ajout fiche,tout effacer,annulation,mise à jour,effacement,Confirmer suppression fiche : ,Confirmer la suppression de toutes les fiches dans tous les groupes,jj/mm/aaaa,Est : positif - Ouest : négatif,Nord : positif - Sud : négatif,erreur !,manque",
 		"description": "etiquettes gauche"
 	},
 	"labelsDroite":

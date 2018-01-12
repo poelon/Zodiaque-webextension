@@ -21,13 +21,13 @@
      <div class="cadregauchevertical">
       <div class="cadregaucheverticalhaut">
         <div class="new-note">
-                <label id="nom" required>nom</label><br>
+                <label for="0" id="nom" required>nom</label><br>
             <input type="text" id="0"><br>
-                <label id="date">date de naissance</label><br>
-            <input type="date" class="dates" id="1" placeholder="jj/mm/aaaa" required><br>
-                <label id="heure">heure</label><br>
-            <input type="time" class="heures" id="2"  placeholder="hh:mm" required pattern="[0-9]{2}:[0-9]{2}"><br>
-                <label id="lieu">lieu de naissance</label><br>
+                <label for="1" id="date">date de naissance</label><br>
+            <input type="date" class="dates" id="1" placeholder="jj/mm/aaaa"><br>
+                <label for="2" id="heure">heure</label><br>
+            <input type="time" class="heures" id="2"  placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}"><br>
+                <label for="3" id="lieu">lieu de naissance</label><br>
             <input type="text" id="3"><br>
             <label for="4" id="utc">utc</label>
             <input id="4" class="nombres0" type='number' value='1' max=14 min=-12><br>
@@ -35,7 +35,8 @@
             <input id="5" class="nombres" type='number' value='48.52' step=0.01 min=-90 max=90><br>
             <label for="6" id="longitude">longitude</label>
             <input id="6" class="nombres" type='number' value='2.21' step=0.01 min=-180 max=180><br><br>
-            <button class="add" id="add" >ajouter fiche</button>
+            <button class="add" id="add" >ajouter fiche</button><br>
+            <span class="error" aria-live="polite"></span>
             <div class="clearfix"></div>
             <p>************************</p>
             <div class="file-container"><select id="groupes"></select></div>
@@ -83,11 +84,11 @@
              <input type="checkbox" id="progresseNatal" checked><br>
                                         
                <div id="labelprog" hidden=true> <label id="labelcoeff">sensibilité</label>
-            <input type="number" class="nombres0" id="coefforbe" step=0.02 min=0.01 value=0.5>
+            <input type="number" class="nombres0" id="coefforbe" value=0.5 step=0.02 min=0 max=1>
             <label id="labelcoeff2">année</label></div>
         </div> 
         <div class="cadrevertical" > 
-            <h4>Transits <input type="number" class="nombres" id="anneeTransit" value=2017></h4>
+            <h4>Transits <input type="number" class="nombres" id="anneeTransit" value=2018></h4>
                 <label id="choixTransitsMondiaux">1-mondiaux </label>
                 <label id="choixTransitsProgresseNatal">2-progressé/natal </label>
                 <label id="choixTransitsProgresseProgresse">3-progressé/progressé</label><br>

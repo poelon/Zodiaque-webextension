@@ -142,3 +142,21 @@ header, footer {
   font-size: 1.3em;
 } 
 
+/* Selects any invalid <input> */
+input:invalid {
+ /* background-color: pink;*/
+  border: 2px dashed red;
+}
+/* Selects any valid <input> */
+/*input:valid {
+  background-color: powderblue;
+}*/
+
+/* This is the style of our error messages */
+.error {
+  color: red;
+}
+
+/*.error.active {
+  padding: 0.3em;
+}*/
