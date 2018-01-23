@@ -78,8 +78,6 @@ var xs,
     ys,
     zs;
 
-var planetesImages=['../images/planetes/sun-celestial.jpg','../images/planetes/moon-celestial.jpg','../images/planetes/mercury-celestial.jpg','../images/planetes/venus-celestial.jpg','../images/planetes/mars-celestial.jpg','../images/planetes/jupiter-symbol.jpg','../images/planetes/saturn-symbol.jpg','../images/planetes/uranus-symbol.jpg','../images/planetes/neptune-symbol.jpg','../images/planetes/pluto-symbol.jpg','../images/planetes/earth-astrology-symbol.jpg','../images/planetes/juno-symbol.jpg'];
-var signesImages=["../images/signes/aries-zodiac-symbol.jpg","../images/signes/taurus-zodiac-symbol.jpg","../images/signes/gemini-zodiac-symbol.jpg","../images/signes/cancer-zodiac-symbol.jpg","../images/signes/leo-zodiac-symbol.jpg","../images/signes/virgo-zodiac-symbol.jpg","../images/signes/libra-zodiac-symbol.jpg","../images/signes/scorpio-zodiac-symbol.jpg","../images/signes/sagittarius-symbol.jpg","../images/signes/capricorn-symbol.jpg","../images/signes/aquarius-symbol.jpg","../images/signes/pisces-zodiac-symbol.jpg",];
 var planetesFonts=["A","B","C","D","E","F","G","H","I","J","M","N","W"];
 var signesFonts=["a","b","c","d","e","f","g","h","i","j","k","l"];
 
@@ -494,36 +492,23 @@ var tSigne=20,
         //écriture des symboles signes et planètes avec fonts Zodiac
         let taille=20;
         ctx1.font="20px Zodiac"  //String(taille)+"px Zodiac" //ne marche pas avec Chrome (="20px "Zodiac"")
-        if (ctx1.font=="20px Zodiac"){  //condition à revoir  !
-            ctx1.fillStyle="rgb(100,100,100)";     
-            ctx1.fillText(signesFonts[i], lSigne[i]-taille/2, hSigne[i]+taille/2);
-            ctx1.fillText(planetesFonts[i], lPlanete[i]-taille/2, hPlanete[i]+taille/2);
-            //rétrograde ?
-            if (retrograde[i]){
-               ctx1.font = '12px serif';
-               let lR=taille-10;
-               if (lPlanete[i]-centre[0]<0){lR=-taille;}
-               ctx1.fillText("R", lPlanete[i]+lR,hPlanete[i]); 
-            }
-            //NS
-            if (i==11){
-                ctx1.font="20px Zodiac" //String(taille)+"px Zodiac"
-                lPlanete[12]=centre[0]+Math.cos(Math.PI/180*positionPlanete[12]-AS)*(rayon/1.4);
-                hPlanete[12]=centre[1]-Math.sin(Math.PI/180*positionPlanete[12]-AS)*(rayon/1.4);
-                ctx1.fillText(planetesFonts[12], lPlanete[12]-taille/2, hPlanete[12]+taille/2);
-            }
-         } else {
-        //ancienne méthode avec des symboles en images
-        /*symboles signes - ne pas déclarer en-dehors boucle sinon n'affiche que la dernière image
-        ctx1.drawImage(image, dx, dy, dWidth, dHeight); dx:position calculée -1/2 dxwidth pour centrer l'image sur la position calculée (idem avec hauteur dy)*/
-            var signe=new Image();
-            signe.src=signesImages[i];
-            signe.onload=ctx1.drawImage(signe, lSigne[i]-(tSigne/2), hSigne[i]-(tSigne/2),tSigne,tSigne);
-            //symboles planètes
-            var planete =new Image(); //ou = document.createElement('img');
-            planete.src =planetesImages[i]; //ou = planete.setAttribute('src', list[i]);
-            planete.onload=ctx1.drawImage(planete, lPlanete[i]-(tPlanete/2), hPlanete[i]-(tPlanete/2),tPlanete,tPlanete);
-           }
+        ctx1.fillStyle="rgb(100,100,100)";     
+        ctx1.fillText(signesFonts[i], lSigne[i]-taille/2, hSigne[i]+taille/2);
+        ctx1.fillText(planetesFonts[i], lPlanete[i]-taille/2, hPlanete[i]+taille/2);
+        //rétrograde ?
+        if (retrograde[i]){
+            ctx1.font = '12px serif';
+            let lR=taille-10;
+            if (lPlanete[i]-centre[0]<0){lR=-taille;}
+            ctx1.fillText("R", lPlanete[i]+lR,hPlanete[i]); 
+        }
+        //NS
+        if (i==11){
+            ctx1.font="20px Zodiac" //String(taille)+"px Zodiac"
+            lPlanete[12]=centre[0]+Math.cos(Math.PI/180*positionPlanete[12]-AS)*(rayon/1.4);
+            hPlanete[12]=centre[1]-Math.sin(Math.PI/180*positionPlanete[12]-AS)*(rayon/1.4);
+            ctx1.fillText(planetesFonts[12], lPlanete[12]-taille/2, hPlanete[12]+taille/2);
+        }
   }
   if (checkMaisons.checked==false){
      canvas2.hidden=true

@@ -86,20 +86,20 @@ function fillTextMultiLine(ctx, text, x, y) {
 
 //**********gestion souris sur utc,latitude,longitude, cacheGauche, cacheCentre, cacheTitre
 
-choixUtc.onmouseover=function(){
-     displayDivInfo(labelsGauche[12],20,240);
+choixUtc.onmouseover=function(e){
+     displayDivInfo(labelsGauche[12],e.clientX,e.clientY);
 }
 choixUtc.onmouseout=function(){
      displayDivInfo();
 }
-choixLatitude.onmouseover=function(){
-     displayDivInfo(labelsGauche[13],20,240);
+choixLatitude.onmouseover=function(e){
+     displayDivInfo(labelsGauche[13],e.clientX,e.clientY);
 }
 choixLatitude.onmouseout=function(){
      displayDivInfo();
 }
-choixLongitude.onmouseover=function(){
-     displayDivInfo(labelsGauche[12],20,240);
+choixLongitude.onmouseover=function(e){
+     displayDivInfo(labelsGauche[12],e.clientX,e.clientY);
 }
 choixLongitude.onmouseout=function(){
      displayDivInfo();
@@ -126,20 +126,23 @@ cacheTitre.onmouseout=function(){
      displayDivInfo();
 }
 function displayDivInfo(text,x,y){
+    while (document.getElementById('divInfo')) {
+       document.body.removeChild(document.getElementById('divInfo'));
+    }
     if(text){
         var divInfo = document.createElement('div');
         divInfo.style.position = 'absolute';
         divInfo.style.left = x+'px';
-        divInfo.style.top = y-20+'px';
+        divInfo.style.top = y-30+'px';
         divInfo.style.color="blue";
         divInfo.style.background = 'yellow';
         divInfo.id = 'divInfo';
         divInfo.innerText = text;
         document.body.appendChild(divInfo);
     }
-    else{
+  /*  else{
         document.body.removeChild(document.getElementById('divInfo'));
-    }
+    }*/
 }
 
 //************************************* zoom sur canvas *******************************************************

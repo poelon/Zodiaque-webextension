@@ -24,6 +24,8 @@ boutonOk.value = labelsGauche[7];
 var groupesNoms=[];
 var groupeDefaut=labelsGroupes[4];
 
+//document.getElementById('affichage').textContent=labelsGauche[16];
+
 /*  add event listeners to buttons */
 
 addBtn.addEventListener('click', function(){
@@ -391,7 +393,7 @@ function initialize(Group) {
                     //json
                     clef=nom+"/*"+groupe;
                     champJson.push({clef,valeur});//ne pas changer=nom des champs
-                    //affiche si groupe "général"
+                    //affiche le groupe sélectionné sinon le groupe "général"
                     if (Group && groupe==Group){displayNote(nom,valeur);}
                     else if (!Group && groupe==groupeDefaut){displayNote(nom,valeur);}
                     
@@ -612,11 +614,19 @@ function displayNote(clef,valeur) {
     
     //double clic sur nom: affichage ou désaffichage des champs de coordonnées
     noteAffiche[clef+0].ondblclick=function() {
-        if (okEdit==1){ 
+        if (okEdit==1 && champJson.length){ 
             okEdit=0;
             editNote(clef);
         }
     }
+    
+    //message au survol souris
+   /* noteAffiche[clef+0].onmouseover=function(e){
+        displayDivInfo(labelsGauche[16],e.clientX,e.clientY);
+    }
+    noteAffiche[clef+0].onmouseout=function(){
+        displayDivInfo();
+    }*/
 }
 
 /*************note edit box : clef=nom+prénom, valeur=date+heure+lieu+latitude+longitude************/  
@@ -655,14 +665,14 @@ function editNote(clef){
     var labels=browser.i18n.getMessage("labelsGauche").split(",");
     var clearFix2 = document.createElement('div');
     noteEdit.appendChild(clearFix2);
-    var cancelBtn = document.createElement('button');
-    //cancelBtn.textContent = 'annulation';
-    cancelBtn.textContent =labelsGauche[6];
-    noteEdit.appendChild(cancelBtn);
     var updateBtn = document.createElement('button');
     // updateBtn.textContent = 'sauvegarde fiche';
     updateBtn.textContent =labelsGauche[7];
     noteEdit.appendChild(updateBtn);
+    var cancelBtn = document.createElement('button');
+    //cancelBtn.textContent = 'annulation';
+    cancelBtn.textContent =labelsGauche[6];
+    noteEdit.appendChild(cancelBtn);
     var deleteBtn = document.createElement('button');
     //deleteBtn.textContent = 'effacement fiche';
     deleteBtn.textContent =labelsGauche[8];

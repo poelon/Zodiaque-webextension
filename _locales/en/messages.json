@@ -31,7 +31,7 @@
 	},
 	"labelsGauche":
 	{
-		"message": "name,date of birth,time,place,add file,clear all,cancel,update,delete,confirm file deletion: ,Confirm deletion of all records in all groups,dd/mm/yyyy,East:positive - West:negative,North: positive - South: negative,error!,missing",
+		"message": "name,date of birth,time,place,add file,clear all,cancel,update,delete file,confirm file deletion: ,Confirm deletion of all records in all groups,dd/mm/yyyy,East:positive - West:negative,North: positive - South: negative,error!,missing,click: display & double-click: modify",
 		"description": "left labels"
 	},
 	"labelsDroite":
