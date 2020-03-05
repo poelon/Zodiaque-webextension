@@ -1,2 +1,2 @@
 1.7.5 
-suppression autorisation downloads, signe chinois
+suppression permission downloads, ajout du signe chinois
