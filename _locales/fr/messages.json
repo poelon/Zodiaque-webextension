@@ -11,7 +11,7 @@
 	},
 	"planetes":
 	{
-		"message": "Soleil,Lune,Mercure,Vénus,Mars,Jupiter,Saturne,Uranus,Neptune,Pluton,Nœud Nord vrai,Lilith,Nœud Sud  ",
+		"message": "Soleil,Lune,Mercure,Vénus,Mars,Jupiter,Saturne,Uranus,Neptune,Pluton,Nœud Nord,Lilith,Nœud Sud,AS,MC",
 		"description": "planètes"
 	},
 	"aspects":
@@ -21,30 +21,42 @@
 	},
 	"dignites":
 	{
-		"message": "maitrise,exil,chute,exaltation,,Maison interceptée",
+		"message": "maitrise,Maison interceptée,exil,chute,exaltation",
 		"description": "dignités"
 	},
 	"labelsCentre":
 	{
-		"message": "maintenant,Maisons,Thème,2-progressé/natal,3-progressé/progressé,1-mondiaux,bascule thème/tableau,sensibilité,progressé,maisons natales,Maison habitée,Maison(s) gouvernée(s),an",
+		"message": "maintenant,Maisons,Thème,2-progressé/natal,3-progressé/progressé,1-mondiaux,bascule thème/tableau,sensibilité,progressé,Maisons natales,Maison habitée,Maison.s gouvernée.s,an,planètes individuelles : Soleil-Saturne + ASC MC,planètes collectives : Uranus-Pluton + FC DS,équation du temps, correction de l'heure de naissance liée au recul ou à l'avance du soleil vrai par rapport à sa course moyenne",
 		"description": "etiquettes centre"
 	},
 	"labelsGauche":
 	{
-		"message": "nom,date de naissance,heure,lieu,ajout fiche,tout effacer,annulation,mise à jour,effacement,Confirmer suppression fiche : ,Confirmer la suppression de toutes les fiches,jj/mm/aaaa,Est : positif - Ouest : négatif,Nord : positif - Sud : négatif",
+		"message": "nom,date de naissance,heure,lieu,ajout fiche,tout effacer,annulation,mise à jour,effacement fiche,Confirmer suppression fiche : ,Confirmer la suppression de toutes les fiches dans tous les groupes,jj/mm/aaaa,Est : positif - Ouest : négatif,Nord : positif - Sud : négatif,erreur !,manque,clic : affichage & double-clic : modification,France : 1=heure d'hiver 2=heure d'été - clic pour recherche internet,clic pour recherche des coordonnées sur Wikipedia",
 		"description": "etiquettes gauche"
 	},
 	"labelsDroite":
 	{
-		"message": "zodiaque ,lundi,mardi,mercredi,jeudi,vendredi,samedi,dimanche, né(e) le , à ,Transits mondiaux ,Transits progressé/natal ,Transits progressé/progressé ,Thème progressé,Maisons natales - le ,Maisons progressées le , (heure de naissance ,modifiée , à ,Maison,Signe,cache ,affiche ,panneau de gauche,panneau du centre,titre",
-		"description": "etiquettes droite"
+		"message": "Zodiaque ,lundi,mardi,mercredi,jeudi,vendredi,samedi,dimanche, né.e le , à ,Transits mondiaux ,Transits progressé/natal ,Transits progressé/progressé ,Thème progressé,Maisons natales - le ,Maisons progressées le , (heure de naissance ,modifiée , à ,Maison,Signe,cache ,affiche ,gauche -, - centre,titre - , - luminosité,mondial,ajustement continu date & heure,j/m/a,Synastrie,Transits/Synastrie,clic sur un nom du répertoire pour affichage à l'extérieur du thème",
+		"description": "etiquettes droite (33)"
 	},
 	"options":
 	{
-		"message": "ville par défaut ,sauve",
+		"message": "lieu,sauve,- lieu non défini (options) -,défaut,orbes,cherche",
 		"description": "ville par défaut"
+	},
+	"groupes":
+	{
+		"message": "-----,créer groupe,renommer/effacer groupe,assigner groupes,général,existe déjà,assigner au moins une personne au groupe,si groupe effacé transfert des noms dans le groupe général,(protégé)",
+		"description": "groupes"
+	},
+	"dominantes":
+	{
+		"message": "Yang,Yin,Cardinal,Fixe,Mutable,Feu,Terre,Air,Eau,Pulsionnel,Mental,Individuel,Social,Intériorité,Extériorité,chaud,froid,sec,humide,binaire,ternaire,quaternaire,affichage : ,Éléments",
+		"description": "dominantes (24)"
+	},
+	"chine":
+	{
+		"message": "Rat,Buffle,Tigre,Lièvre,Dragon,Serpent,Cheval,Chèvre,Singe,Coq,Chien,Cochon,Métal,Eau,Bois,Feu,Terre,Zodiaque chinois : ",
+		"description": "Zodiaque chinois (18)"
 	}
-	
-	
-	
 }

@@ -8,14 +8,35 @@
 
   <body>
 
-    <form>
-        <label id="labelPlace"></label><input type="text" id="place" ><br>
-        <label>utc </label><input type="number" id="utcDef" class="nombres" max=24 min=-24><br>
-        <label>latitude</label><input type="number" id="latDef" class="nombres"  step=0.01 min=-90 max=90><br>
-        <label>longitude</label> <input type="number" id="longDef" class="nombres" step=0.01 min=-180 max=180><br>
-        <button type="submit" id="bouton">Save</button>
-    </form>
-    
+        <!--location-->
+        <div>
+        <h2 id="titrePosition">position</h2>
+        <label class="option" id="labelPlace">ville</label><input type="text" id="place" ><button id="cherchePosition">cherche</button><br>
+        <label class="option">utc ± </label><input type="number" id="utcDef" class="option" max=14 min=-12><button id="chercheUtc">cherche</button><label id="1"></label> <br>
+        <label class="option">latitude </label><input type="number" id="latDef" class="option"  step=0.01 min=-90 max=90><label id="2"></label> <br>
+        <label class="option">longitude </label> <input type="number" id="longDef" class="option" step=0.01 min=-180 max=180><label id="3"></label> <br>
+        <label class="option" id="labelLux">luminosite</label> <input type="number" id="luxDef" class="option" step=0.01 min=0.01 max=1><label id="4"></label> <br><br>
+        <button id="boutonDefautPosition">defaut</button></div>
+        
+        <!--orbes-->
+        <div>
+        <h2 id="titreOrbes">orbe</h2>
+        <label class="option" id="labelA0"></label><input type="number" id="numA0" class="option" step=0.1 min=0.1>
+        <label class="option" id="labelA1"></label><input type="number" id="numA1" class="option" step=0.1 min=0.1><br>
+        <label class="option" id="labelA2"></label><input type="number" id="numA2" class="option" step=0.1 min=0.1>
+        <label class="option" id="labelA3"></label><input type="number" id="numA3" class="option" step=0.1 min=0.1><br>
+        <label class="option" id="labelA4"></label><input type="number" id="numA4" class="option" step=0.1 min=0.1>
+        <label class="option" id="labelA5"></label><input type="number" id="numA5" class="option" step=0.1 min=0.1><br>
+        <label class="option" id="labelA6"></label><input type="number" id="numA6" class="option" step=0.1 min=0.1>
+        <label class="option" id="labelA7"></label><input type="number" id="numA7" class="option" step=0.1 min=0.1><br>
+        <label class="option" id="labelA8"></label><input type="number" id="numA8" class="option" step=0.1 min=0.1><br><br>
+        <button id="boutonDefautOrbes">defaut</button></div>
+            
+        <!--sauvegarde-->
+        <div style="width: 20%; margin : auto">
+        <button type="submit" id="boutonSauve">Save</button>
+        <label id="ok"></label></div><br><br>
+
     <script src="../js/browser-polyfill.js"></script>
     <script src="../js/options.js"></script>
     

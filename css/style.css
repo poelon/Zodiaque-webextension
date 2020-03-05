@@ -5,7 +5,7 @@ body {
   padding: 5px 25px;
   font-size: 0.8em; /*14px;*/
   margin: 0;
- # color: #444;
+  color: #444;
 }
 
 h2,h3 {
@@ -15,7 +15,16 @@ h2,h3 {
   text-align: center;
 }
 
-ul:hover {
+.elements {
+  text-align: center;
+}
+
+.marge { 
+  /*  outline: solid 1px;
+    align-self: center; décalé sur tablette*/
+}
+
+ul,p,.main:hover {
   cursor: pointer;
 }
 
@@ -28,7 +37,6 @@ label {
   display: flex;
   flex-direction: row;
 }
-
 
 .cadregauche {
   overflow: auto;
@@ -99,7 +107,7 @@ th, td {
 
 .thead {
   text-align: center; 
-  background-color: rgb(240,240,240);
+  /*background-color: rgb(240,240,240);*/
   height: 25px;
 }
 
@@ -110,23 +118,29 @@ header, footer {
   min-height: 100px;
   border: 1px solid #eebb55;
   border-radius: 7pt;
-# background: #ffeebb;
+  background: #ffeebb;
 }
-        
+ 
 .clearfix {
   clear: both;
 }
 
-.planetes {
-  cursor: pointer;
-}
-
-.nombres {
+.nombres4 {
   width: 4em;
+  cursor: pointer;
+  border: none;
 }
 
-.nombres0 {
-  width: 3em;
+.nombres3 {
+  width: 3.2em;
+  cursor: pointer;
+  border: none;
+}
+
+.nombres2 {
+  width: 2.2em;
+  cursor: pointer;
+  border: none;
 }
 
 .dates {
@@ -137,5 +151,27 @@ header, footer {
   width: 7em;
 }
 
-  
+.option {
+  width: 5em;
+  font-size: 1.3em;
+} 
 
+
+/* Selects any invalid <input> */
+input:invalid {
+ /* background-color: pink;*/
+  border: 2px dashed red;
+}
+/* Selects any valid <input> */
+/*input:valid {
+  background-color: powderblue;
+}*/
+
+/* This is the style of our error messages */
+.error {
+  color: red;
+}
+
+/*.error.active {
+  padding: 0.3em;
+}*/

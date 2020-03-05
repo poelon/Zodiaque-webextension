@@ -10,145 +10,250 @@ function getMousePos(canvas1, evt) {
     };
 }
 canvasTarget.addEventListener('dblclick', function(evt) {
-        dessins();
+    checkMaintenant.click();
+     /*   dessins();
+        fixePhases=0;
+        canvasPartielAspects.hidden=true;*/
 }, false);
 
 canvasTarget.addEventListener('mousemove', function(evt) {
- if (survol){
+    if (fixePhases==1 || tableau.hidden==false) return;
+    margeNoir();
+        //réaffiche les canvas si cachés par le survol des planètes en marge
+        canvas1.hidden=false;//secteurs signes
+        if (checkMaisons.checked==true)canvas2.hidden=false; //maisons
+        canvas3.hidden=false; //symboles planetes
+        canvas4.hidden=false; //symboles signes
+        canvas5.hidden=true; //mondial
+        canvasGlobalAspects.hidden=false;
+        canvasPartielAspects.hidden=true;
+        canvasLive.hidden=false;
+      //  if (checkThemeLive.checked==false) canvasPartielAspects.hidden=true;
+        
    var mousePos = getMousePos(canvas1, evt);
    var nested = document.getElementById("annotation");
-        if (nested) {var garbage = canvasTarget.removeChild(nested);}
+        if (nested) {garbage = canvasTarget.removeChild(nested);}
+       
+                
    var symbole={
         maison: [lMaison,hMaison],
         signe: [lSigne,hSigne],
-        planete: [lPlanete,hPlanete]
+        planete: [lPlanete,hPlanete],
+        jour: [lLive,hLive]
    } 
    //teste position souris/positions symboles
-        var a=["maison","signe","planete"];
+        var a=["maison","signe","planete","jour"],
+            x,y,ctx;
+            
         for (var j=0;j<a.length;j++){
-            for (i=0;i<symbole[a[j]][0].length;i++){
+            for (var i=0;i<symbole[a[j]][0].length;i++){
             if (mousePos.x<= symbole[a[j]][0][i]+10 && mousePos.x>= symbole[a[j]][0][i]-10 && mousePos.y<= symbole[a[j]][1][i]+10 && mousePos.y>= symbole[a[j]][1][i]-10){
+                //création canvas (ne pas déplacer)
+                [canvas,ctx]=creeCanvas("annotation",canvas);
+                ctx.font = '14px serif';
+                ctx.fillStyle="blue";
+                //position du symbole survolé
+                x=symbole[a[j]][0][i];
+                y=symbole[a[j]][1][i];
+                
                 switch(j){
                 //numéros maisons
                 case 0:
-                    var abc=convDegres(positionMaison[i]);
-                    var message=abc.degres+signes[abc.signe];
+                    var abc=convPositiontoDegres(positionMaison[i]);
+                    var message=AtoR( i+1 )+"  "+abc.degres+" "+signes[abc.signe];
                     break;
                 //symboles signes
                 case 1:
                     var message=signes[i];
+                    var l=browser.i18n.getMessage("dignites").split(",");
+                    //dignités
+                    var d=[pMaitre,,pExil,pChute,pExaltation];
+                    for (var k=0;k<=4;k++){
+                        if (k==1){continue}
+                        message+="+"+l[k]+" : ";
+                        for (var m=0;m<d[k][i].length;m++){
+                            message+=planetes[d[k][i][m]];
+                            if (d[k][i].length>1 && m<1){message+=", "}
+                        }
+                    }
                     break;
-                //symboles planètes
+                //planètes du thème
                 case 2:
-                    var message=planetes[i]
-                    if (aspectGeneral[i]) {message+="+"+aspectGeneral[i];}
+                    //sort si AS-MC non coché
+                    if ((i==13 || i==14) && checkAsMc.checked==false) return;
+                    var message=planetes[i];
+                    if (testRetrograde(i)==1) message+=" (R)";
+                    if (okProgresse==0) var abc=convPositiontoDegres(positionNatal[i]);
+                    else var abc=convPositiontoDegres(positionPlanete[i]);
+                    message+=" "+abc.degres+" "+signes[abc.signe];  
+                 //   message+=" "+abc.secondes+" "+signes[abc.signe];  
+                    //liste des aspects
+                    var liste=listAspects.planete[i].split(",");
+                    var aspects=listAspects.aspect[i].split(","); 
+                    var orbe=listAspects.orbe[i].split(",");
+                    for (var k=1;k<liste.length;k++){
+                        if ((liste[k]==13 || liste[k]==14) && checkAsMc.checked==false) continue; //AS-MC
+                        message+="+"+aspect[aspects[k]]+" "+planetes[liste[k]]+" "+ convPositiontoDegres(orbe[k]).degres;
+                    }
+                    //si aspects, redessine planetes+aspects dans canvasPartielAspects
+                    if (i<=14 && liste.length>1) survolAspects(i,0);
+                    //position en haut à gauche pour affichage du détail planete+aspects
+                    x=20; //centre[0]-(1.35*rayon);
+                    y=canvas1.height/30;
+                    break;
+                //planetes en transit
+                case 3:
+                    if (okTransits==0) continue;
+                    var abc=convPositiontoDegres(positionLive[i]);
+                    var message="Transit ";
+                    if (nomTheme2) message="Aspects "; //synastrie
+                    message+=planetes[i]+ " "+abc.degres+" "+signes[abc.signe] ;
+                 //   var message="Transit "+planetes[i]+ " "+abc.secondes+" "+signes[abc.signe] ;
+                              
+                    //testBoucle
+                    var liste=listAspectsTransits.planete[i].split(",");
+                    var aspects=listAspectsTransits.aspect[i].split(","); 
+                    var orbe=listAspectsTransits.orbe[i].split(",");
+                    for (var k=1;k<liste.length;k++){
+                        if ((liste[k]==13 || liste[k]==14) && checkAsMc.checked==false) continue; //AS-MC
+                        message+="+"+aspect[aspects[k]]+" "+planetes[liste[k]]+" "+ convPositiontoDegres(orbe[k]).degres;
+                    }
+                    //si aspects, redessine planetes+aspects dans canvasPartielAspects
+                    if (i<12 && liste.length>1) survolAspects(i,1);
+                    //position en haut à gauche pour affichage du détail planete+aspects
+                    x=20; //centre[0]-(1.35*rayon);
+                    y=canvas1.height/30;
+                    break;
                 }
-                
-                //création canvas
-                canvas = document.createElement('canvas');
-                canvas.setAttribute("Id","annotation");
-                canvasTarget.appendChild(canvas);
-                canvas.width = 1600;
-                canvas.height = 1600;
-                var ctx = canvas.getContext("2d");
-                ctx.font = '14px serif';
-                ctx.fillStyle="blue"
-                var x=symbole[a[j]][0][i];
-                var y=symbole[a[j]][1][i];
-                fillTextMultiLine(ctx, message, x, y);
+                //affichage détails
+                fillTextMultiLine(j,ctx, message, x, y);
                 break;
             }
         }
     }
-  }  
 }, false);
 
-function fillTextMultiLine(ctx, text, x, y) {
-  var lineHeight = ctx.measureText("M").width * 1.2;
-  var lines = text.split("+");
-    //recherche largeur max du texte
-    var l=1;
+function fillTextMultiLine(type,ctx, text, x, y) {
+    var lineHeight = ctx.measureText("M").width * 1.2;
+    var lines = text.split("+");
+    //l=nombre max de caractères sur une ligne
+    var l=1,iref;
     for (var i = 0; i < lines.length; ++i) {
-        if (lines[i].length>l){l=lines[i].length;}
+        if (lines[i].length>l){
+            l=lines[i].length;
+            iref=i;
+        }
     }
-    var x0= x-(3.5*l), y0=y-(lineHeight*lines.length);
-    //fond jaune
-    ctx.rect(x0-5,y0-lineHeight,l*8+8,lineHeight*lines.length+5);
-    ctx.fillStyle="hsla(60, 100%, 60%, 0.9)"; 
-    ctx.fill();
-    //texte en bleu
-    ctx.fillStyle="blue";
-    for (var i = 0; i < lines.length; ++i) {
-        ctx.fillText(lines[i], x0, y0);
-        y0 += lineHeight;
+    //largeur max du texte
+    var lineWidthMax= ctx.measureText(lines[iref]).width// * 1.2;
+    //origine du texte pour maisons et signes + fond jaune
+    if (type<2){
+        y-=lineHeight*lines.length;
+        ctx.fillStyle="yellow";
+        ctx.fillRect(x-10,y-lineHeight,lineWidthMax+20,lineHeight*(lines.length+0.5));
+    }
+    //ecriture texte
+    for (i = 0; i < lines.length; ++i) {
+        //texte en bleu
+        ctx.fillStyle="blue";
+        ctx.fillText(lines[i], x, y);
+        y += lineHeight;
     }
 }
 
 //**********gestion souris sur utc,latitude,longitude, cacheGauche, cacheCentre, cacheTitre
 
-choixUtc.onmouseover=function(){
-     displayDivInfo(labelsGauche[12],20,240);
+infoUtc.onmouseover=function(e){
+     displayDivInfo(labelsGauche[17],e.pageX,e.pageY);
 }
-choixUtc.onmouseout=function(){
+infoUtc.onmouseout=function(){
      displayDivInfo();
 }
-choixLatitude.onmouseover=function(){
-     displayDivInfo(labelsGauche[13],20,240);
+infoLatitude.onmouseover=function(e){
+     displayDivInfo(labelsGauche[13],e.pageX,e.pageY);
 }
-choixLatitude.onmouseout=function(){
+infoLatitude.onmouseout=function(){
      displayDivInfo();
 }
-choixLongitude.onmouseover=function(){
-     displayDivInfo(labelsGauche[12],20,240);
+infoLongitude.onmouseover=function(e){
+     displayDivInfo(labelsGauche[12],e.pageX,e.pageY);
 }
-choixLongitude.onmouseout=function(){
+infoLongitude.onmouseout=function(){
      displayDivInfo();
 }
-cacheGauche.onmouseover=function(){
-     if (cacheGauche.checked==true)displayDivInfo(labelsDroite[21]+labelsDroite[23],cadre1.clientWidth+cadre2.clientWidth+8,50);
-     else displayDivInfo(labelsDroite[22]+labelsDroite[23],cadre1.clientWidth+cadre2.clientWidth+8,50);
+infoEquationTemps.onmouseover=function(e){
+     displayDivInfo(labelsCentre[16],e.pageX,e.pageY);
 }
-cacheGauche.onmouseout=function(){
+infoEquationTemps.onmouseout=function(){
      displayDivInfo();
 }
-cacheCentre.onmouseover=function(){
-     if (cacheCentre.checked==true)displayDivInfo(labelsDroite[21]+labelsDroite[24],cadre1.clientWidth+cadre2.clientWidth+16,50);
-     else displayDivInfo(labelsDroite[22]+labelsDroite[24],cadre1.clientWidth+cadre2.clientWidth+16,50);
+infoTransits.onmouseover=function(e){
+     displayDivInfo(labelsDroite[28],e.pageX-100,e.pageY+10);
 }
-cacheCentre.onmouseout=function(){
+infoTransits.onmouseout=function(){
      displayDivInfo();
 }
-cacheTitre.onmouseover=function(){
-     if (cacheTitre.checked==true)displayDivInfo(labelsDroite[21]+labelsDroite[25],cadre1.clientWidth+cadre2.clientWidth+60,50);
-     else displayDivInfo(labelsDroite[22]+labelsDroite[25],cadre1.clientWidth+cadre2.clientWidth+60,50);
+infoSynastrie.onmouseover=function(e){
+     displayDivInfo(labelsDroite[32],e.pageX-100,e.pageY+10);
 }
-cacheTitre.onmouseout=function(){
+infoSynastrie.onmouseout=function(){
      displayDivInfo();
 }
-function displayDivInfo(text,x,y){
+infoLieu.onmouseover=function(e){
+     displayDivInfo(labelsGauche[18],e.pageX,e.pageY);
+}
+infoLieu.onmouseout=function(){
+     displayDivInfo();
+}
+
+function displayDivInfo(text,x,y,titre){
+    while (document.getElementById('divInfo')) {
+       garbage=document.body.removeChild(document.getElementById('divInfo'));
+    }
     if(text){
         var divInfo = document.createElement('div');
         divInfo.style.position = 'absolute';
-        divInfo.style.left = x+'px';
-        divInfo.style.top = y-20+'px';
+        divInfo.style.left = x+20+'px';
+        divInfo.style.top = y+'px';
         divInfo.style.color="blue";
         divInfo.style.background = 'yellow';
         divInfo.id = 'divInfo';
-        divInfo.innerText = text;
+        divInfo.style.font = '14px serif';
+        var abc=text.split("_");
+        var h=abc.length;
+        var element;
+        if (h>1) {
+            divInfo.style.top = y-15*(h+1)+'px';
+            element=document.createElement('p');
+            element.textContent=titre;
+            element.style.fontStyle="italic"
+            divInfo.appendChild(element);
+          //  divInfo.textContent=titre;
+            divInfo.align="center";
+        }
+        
+        for (var i=0;i<h;i++) {
+            element=document.createElement('p');
+            element.textContent=abc[i];
+            //si tableau des elements, mise en gras des signes du thème (avec () à la fin)
+            if (abc[i].search(/\(/)>=0) element.style.fontWeight="bold";
+            divInfo.appendChild(element);
+        }
         document.body.appendChild(divInfo);
     }
-    else{
+  /*  else{
         document.body.removeChild(document.getElementById('divInfo'));
-    }
+    }*/
 }
 
+/*
+ //v.1.3.0 : suppression zoom (trop long pour charger les images des aspects (canvasPl)
 //************************************* zoom sur canvas *******************************************************
 
 //source : http://phrogz.net/tmp/canvas_zoom_to_cursor.html
 
 function redraw(){
     if (!android){
-  //  survol=0;
         // Clear the entire canvasZoom
         var p1 = ctx1.transformedPoint(0,0);
         var p2 = ctx1.transformedPoint(canvas1.width,canvas1.height);
@@ -277,7 +382,7 @@ var zoom = function(clicks){
                         hSigne[i]=hSigne[i]*factor-((factor-1)*canvas1.height)/2;
                         lPlanete[i]=lPlanete[i]*factor-((factor-1)*canvas1.width/2);
                         hPlanete[i]=hPlanete[i]*factor-((factor-1)*canvas1.height)/2;
-                    }*/
+                    }*//*
                   //  console.log("factor : "+factor+ ", hPlanete : "+hPlanete[0]+ ", lPlanete : "+lPlanete[0]);
     redraw();
 }
@@ -292,3 +397,4 @@ canvasTarget.addEventListener('DOMMouseScroll',handleScroll,false);
 canvasTarget.addEventListener('mousewheel',handleScroll,false);
 
 //-----------------------------------fin zoom sur canvas-----------------------------------------------------
+*/

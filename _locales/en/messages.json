@@ -11,7 +11,7 @@
 	},
 	"planetes":
 	{
-		"message": "Sun,Moon,Mercury,Venus,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto,True North Node,Lilith, South Node",
+		"message": "Sun,Moon,Mercury,Venus,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto,North Node,Lilith, South Node,AS,MC",
 		"description": "planets"
 	},
 	"aspects":
@@ -21,27 +21,42 @@
 	},
 	"dignites":
 	{
-		"message": "Domicile,Detriment,Fall,Exaltation,,Intercepted House",
+		"message": "Domicile,Intercepted House,Detriment,Fall,Exaltation",
 		"description": "dignities"
 	},
 	"labelsCentre":
 	{
-		"message": "now,Houses,Chart,2-progressed/natal,3-progressed/progressed,1-outer planets,flip chart/table,sensitivity,progressed,natal houses,inhabited House,ruled House(s),year",
+		"message": "now,Houses,Theme,2-progressed/natal,3-progressed/progressed,1-outer planets,flip chart/table,sensitivity,progressed,natal Houses,inhabited House,ruled House.s,year,Individual Planets: Sun-Saturn + ASC MC,Collective Planets: Uranus-Pluto + FC DS,equation of time,correction of the birth time according to the delay or advance of the true sun compared to its average stroke",
 		"description": "center labels"
 	},
 	"labelsGauche":
 	{
-		"message": "name,date of birth,time,place,add file,clear all,cancel,update,delete,confirm file deletion: ,confirm all files deletion,dd/mm/yyyy,East:positive - West:negative,North: positive - South: negative",
+		"message": "name,date of birth,time,place,add file,clear all,cancel,update,delete file,confirm file deletion: ,Confirm deletion of all records in all groups,dd/mm/yyyy,East:positive - West:negative,North: positive - South: negative,error!,missing,click: display & double-click: modify,East:positive - West:negative - click for internet research,click to find the coordinates on Wikipedia",
 		"description": "left labels"
 	},
 	"labelsDroite":
 	{
-		"message": "Zodiac ,Monday,Tueday,Wednesday,Thursday,Friday,Saturday,Sunday, born on , in ,outer planets Transits ,progressed/natal Transits ,progressed/progressed Transits ,progressed Chart,natal Houses on ,progressed Houses on , (time of birth ,modified , at ,House (d/m),Sign (d/m),hide ,show ,left panel,center panel,title",
+		"message": "Zodiac ,Monday,Tueday,Wednesday,Thursday,Friday,Saturday,Sunday, born on , in ,outer planets Transits ,progressed/natal Transits ,progressed/progressed Transits ,progressed Chart,natal Houses on ,progressed Houses on , (time of birth ,modified , at ,House (d/m),Sign (d/m),hide ,show ,left panel - , - center panel,title - , - brightness,mundane,continuous date & time adjustment,d/m/y,Synastry,Transits/Synastry,click on directory name to display outside the theme",
 		"description": "right labels"
 	},
 	"options":
 	{
-		"message": "default location ,save",
+		"message": "location ,save,- location not defined (options) -,default,orbs,seek",
 		"description": "default city"
+	},
+	"groupes":
+	{
+		"message": "-----,create group,rename/delete group,assign groups,general,already in use,assign at least one person to the group,if group cleared transfer of names in the general group,(protected)",
+		"description": "groupes"
+	},
+	"dominantes":
+	{
+		"message": "Yang,Yin,Cardinal,Fixed,Mutable,Fire,Earth,Air,Water,Instinctual,Mental,Individual,Social,Interiority,Exteriority,hot,cold,dry,wet,polarities,qualities,elements,display; ,Elements",
+		"description": "dominant Elements"
+	},
+	"chine":
+	{
+		"message": "Rat,Ox,Tiger,Rabbit,Dragon,Snake,Horse,Goat,Monkey,Rooster,Dog,Pig,Metal,Water,Wood,Fire,Earth, Chinese Zodiac: ",
+		"description": "Chinese Zodiac (18)"
 	}
 }

@@ -1,0 +1,17 @@
+1.5.18
+correction bug : 1900 non bisextile
+1.5.19
+modif fond jaune maisons et signes + correction année 1900 partout
+1.6.0
+renommé routines dans "calc"
+suppression éphémérides : calculs NN et Lilith vrais
+1.6.1
+augmenté taille icônes signes dans tableau résumé
+1.6.2.1
+décalé vers le haut texte et fond jaune des dominantes, centré, titre en italiques
+1.6.2.2
+réduction taille transits lilith
+1.6.3.1
+correction bug conversion latitude et longitude négatives
+1.6.3.2
+ajout transits mondiaux graphiques sur lilith + transits progressés sur lilith et nn
